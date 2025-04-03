@@ -14,7 +14,7 @@ public:
         list = std::queue<T>();
     }
 
-    void load(T task, const int burst) override {
+    void load(T task, const int burst, std::optional<EmptyOption>) override {
         for (int i = 0; i < burst; ++i) {
             list.push(task);
         }

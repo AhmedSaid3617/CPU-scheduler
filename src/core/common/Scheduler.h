@@ -4,9 +4,9 @@
 #include <optional>
 #include <vector>
 
-#include "TaskEntry.h"
+#include "EmptyOption.h"
 
-template <typename T>
+template <typename T, typename M = EmptyOption>
 class Scheduler {
 
 public:
@@ -17,11 +17,11 @@ public:
      */
     virtual void reset() = 0;
 
-    virtual void load(T task, int burst) = 0;
+    virtual void load(T task, int burst, std::optional<M> option) = 0;
 
-    virtual void load(std::vector<std::pair<T, int>> tasks) {
+    virtual void load(std::vector<std::tuple<T, int, std::optional<M>>> tasks) {
         for (auto element: tasks) {
-            load(element.first, element.second);
+            load(std::get<0>(element), std::get<1>(element), std::get<2>(element));
         }
     }
 

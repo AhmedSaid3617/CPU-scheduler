@@ -12,7 +12,7 @@ TEST(FCFS_Test, BasicAssertions) {
     sim.load({"task 1", 5});
 
     sim.load({
-    {"task 2", 2, 3},
+    {"task 2", 12, 8},
     {"task 3", 12, 8},
     });
 

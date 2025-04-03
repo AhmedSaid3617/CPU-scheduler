@@ -3,24 +3,24 @@
 #include <unordered_map>
 
 #include "Scheduler.h"
+#include "TaskEntry.h"
 
-
-template <typename T>
+template <typename T, typename M = EmptyOption>
 class Simulator {
-  Scheduler<T> * sch;
+  Scheduler<T, M> * sch;
 
-  std::unordered_map<int, std::vector<std::pair<T, int>>> batch;
+  std::unordered_map<int, std::vector<std::tuple<T, int, std::optional<M>>>> batch;
   int timestep = 0;
 
 public:
-  explicit Simulator (Scheduler<T> * sch): sch(sch) {
+  explicit Simulator (Scheduler<T, M> * sch): sch(sch) {
   }
 
-  void load(TaskEntry<T> entry) {
-    batch[timestep + entry.arrival_time].emplace_back(std::pair(entry.task, entry.burst_time));
+  void load(TaskEntry<T, M> entry) {
+    batch[timestep + entry.arrival_time].emplace_back(std::tuple<T, int, std::optional<M>>(entry.task, entry.burst_time, entry.option));
   }
 
-  void load(const std::vector<TaskEntry<T>>& entries) {
+  void load(const std::vector<TaskEntry<T, M>>& entries) {
     for (auto element: entries) {
       load(element);
     }
