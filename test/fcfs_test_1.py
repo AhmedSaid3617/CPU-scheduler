@@ -1,6 +1,7 @@
 import unittest
 import sys
-sys.path.insert(0, '..')
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
 from core.schedulers.FCFS_Schedule import FCFS_Scheduler
 from core.common.Simulator import Simulator
 from core.common.Task import Task
