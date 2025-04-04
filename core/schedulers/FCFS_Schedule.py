@@ -1,25 +1,29 @@
 from queue import Queue
-from typing import Generic, TypeVar, Optional
 from core.common.Scheduler import Scheduler
-from core.common.EmptyOption import EmptyOption
+from core.common.Task import Task
 
-T = TypeVar('T')
-
-class FCFS_Scheduler(Scheduler[T, EmptyOption]):
+class FCFS_Scheduler(Scheduler):
     def __init__(self):
-        """First-Come, First-Served Scheduler"""
-        self.queue: Queue[T] = Queue()
+        """
+        First-Come, First-Served Scheduler
+        attribute: Queue FIFO
+        """
+        self.queue= Queue()
     
     def reset(self) -> None:
         """Reset the scheduler by clearing the queue."""
         self.queue = Queue()
     
-    def load(self, task: T, burst: int, option: Optional[EmptyOption] = None) -> None:
-        """Load a task into the scheduler multiple times based on burst time."""
-        for _ in range(burst):
-            self.queue.put(task)
+    def load(self, task: Task):
+        """
+        Load a task into the scheduler multiple times based on burst time
+        Queue Size for task as Large as bust time
+        example: 8 seconds burst time = 8 entries of task in queue
+        """
+        for _ in range(task.burst_time):
+            self.queue.put(task.name)
     
-    def schedule(self) -> Optional[T]:
+    def schedule(self) ->str:
         """Return the next task in the queue if available."""
         if self.queue.empty():
             return None
