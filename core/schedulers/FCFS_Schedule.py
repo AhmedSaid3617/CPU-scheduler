@@ -1,7 +1,4 @@
 from queue import Queue
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
 from core.common.Scheduler import Scheduler
 from core.common.Task import Task
 

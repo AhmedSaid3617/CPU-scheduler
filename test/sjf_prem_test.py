@@ -1,5 +1,4 @@
 import unittest
-
 from core.schedulers.SJF_prem import SJF_prem_Scheduler
 from core.common.Simulator import Simulator
 from core.common.Task import Task
