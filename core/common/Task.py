@@ -4,8 +4,12 @@ class Task:
         attributes: name , arrival_time , burst_time , priority
         We will add options later ( work in progress )
     """
-    def __init__(self, name, arr_time=0, burst_time=1, priority=None):
+    def __init__(self, name, arr_time=0, burst_time=1, priority=10):
         self.name = name
         self.arr_time = arr_time
         self.burst_time = burst_time
         self.priority = priority
+
+    def __lt__(self, other):
+        """Compare tasks by burst_time for min-heap behavior"""
+        return self.burst_time < other.burst_time
