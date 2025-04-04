@@ -9,11 +9,13 @@ class MyTestCase(unittest.TestCase):
         sim = Simulator(sch)
 
         sim.load(Task(name="task 1",arr_time=0, burst_time=3))
+
         self.assertEqual(sim.advance().name, "task 1")
         self.assertEqual(sim.advance().name, "task 1")
+
         sim.load_bulk([
-            Task(name="task 2", arr_time=1, burst_time=2),
-            Task(name="task 3", arr_time=2, burst_time=3)
+            Task(name="task 2", arr_time=2, burst_time=2),
+            Task(name="task 3", arr_time=3, burst_time=3)
         ])
         self.assertEqual(sim.advance().name, "task 1")
 

@@ -25,8 +25,7 @@ class Simulator():
         Load a task into the batch based on its arrival time.
         index with key arrival time and append the task
         """
-        # arr_time = self.timestep + task.arr_time  # shams part i don't get it
-        arr_time=self.timestep # fixed
+        arr_time = task.arr_time  # Absolute time
         self.batch[arr_time].append(task)
     
     def load_bulk(self, tasks: List):

@@ -38,25 +38,35 @@ class TestFCFS(unittest.TestCase):
         self.assertEqual(sim.advance(), tasks_list[1])
         self.assertEqual(sim.advance(), tasks_list[2])
     
-    def test_case_2(self):
+    def test_case_3(self):
         sch = FCFS_Scheduler()
         sim = Simulator(sch)
 
-        tasks_list = [Task(name="task 1", arr_time=0, burst_time=1),
-                      Task(name="task 2", arr_time=1, burst_time=7),
-                      Task(name="task 3", arr_time=2, burst_time=1)]
-        
+        tasks_list = [Task(name="task 1", arr_time=2, burst_time=4),
+                      Task(name="task 2", arr_time=3, burst_time=3),
+                      Task(name="task 3", arr_time=2, burst_time=8)]
+
         sim.load_bulk(tasks_list)
-        
+
+        self.assertEqual(sim.advance(), None)
+        self.assertEqual(sim.advance(), None)
+
         self.assertEqual(sim.advance(), tasks_list[0])
 
-        for i in range(6):
+        for i in range(4):
             sim.advance()
-        
-        self.assertEqual(sim.advance(), tasks_list[1])
+
         self.assertEqual(sim.advance(), tasks_list[2])
 
+        for i in range(8):
+            sim.advance()
 
+        self.assertEqual(sim.advance(), tasks_list[1])
+
+        for i in range(3):
+            sim.advance()
+
+        self.assertEqual(sim.advance(), None)
 
 if __name__ == "__main__":
     unittest.main()
