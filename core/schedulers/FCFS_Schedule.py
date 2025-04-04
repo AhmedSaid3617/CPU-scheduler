@@ -1,4 +1,6 @@
 from queue import Queue
+import sys
+sys.path.insert(0, '..')
 from core.common.Scheduler import Scheduler
 from core.common.Task import Task
 
