@@ -4,7 +4,7 @@ sys.path.insert(0, '..')
 from core.schedulers.Priority_non_prem import Priority_non_prem_Scheduler
 from core.common.Simulator import Simulator
 from core.common.Task import Task
-
+from core.common.Priority_Task import Priority_Task
 class MyTestCase(unittest.TestCase):
     def test_something(self):
         sch = Priority_non_prem_Scheduler()

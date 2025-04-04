@@ -5,7 +5,6 @@ import sys
 sys.path.insert(0, '..')
 from core.common.Scheduler import Scheduler
 from core.common.Task import Task
-from core.common.SJF_Task import SJF_Task
 
 
 class SJF_non_prem_Scheduler(Scheduler):
