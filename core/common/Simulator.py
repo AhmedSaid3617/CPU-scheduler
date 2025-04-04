@@ -1,8 +1,6 @@
 from collections import defaultdict
 from typing import List, Tuple, Dict
 import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
 from core.common.Task import Task
 from core.schedulers.FCFS_Schedule import FCFS_Scheduler
 
