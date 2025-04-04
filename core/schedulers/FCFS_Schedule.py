@@ -23,7 +23,7 @@ class FCFS_Scheduler(Scheduler):
         for _ in range(task.burst_time):
             self.queue.put(task)
     
-    def schedule(self) -> Task | None:
+    def schedule(self) -> Task:
         """Return the next task in the queue if available."""
         if self.queue.empty():
             return None
