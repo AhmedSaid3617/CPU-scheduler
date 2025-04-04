@@ -1,6 +1,6 @@
 from core.common.Task import Task
 
-class Piriority_Task(Task):
+class Priority_Task(Task):
     """
         Task Class for tasks in system
         attributes: name , arrival_time , burst_time , priority

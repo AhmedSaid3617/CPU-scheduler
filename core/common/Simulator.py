@@ -1,7 +1,5 @@
 from collections import defaultdict
 from typing import List, Tuple, Dict
-import sys
-sys.path.insert(0, '..')
 from core.common.Task import Task
 from core.schedulers.FCFS_Schedule import FCFS_Scheduler
 
@@ -27,8 +25,7 @@ class Simulator():
         Load a task into the batch based on its arrival time.
         index with key arrival time and append the task
         """
-        # arr_time = self.timestep + task.arr_time  # shams part i don't get it
-        arr_time=self.timestep # fixed
+        arr_time = task.arr_time  # Absolute time
         self.batch[arr_time].append(task)
     
     def load_bulk(self, tasks: List):
@@ -38,7 +35,7 @@ class Simulator():
         for task in tasks:  # loop over tasks and load each one independently
             self.load(task)
     
-    def next(self) ->str :
+    def next(self) -> Task :
         """
         Process the next batch of tasks and schedule one.
 
@@ -51,14 +48,14 @@ class Simulator():
             self.scheduler.load_bulk(self.batch[self.timestep])
         return self.scheduler.schedule()
     
-    def advance(self) -> str:
+    def advance(self) -> Task:
         """
         Same as Next but increments timestep by 1 after doing next
         Move the simulation forward by one timestep.
         """
-        name=self.next()
+        task=self.next()
         self.timestep = self.timestep + 1
-        return name
+        return task
     
     def reset(self) -> None:
         """

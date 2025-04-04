@@ -1,11 +1,8 @@
 from queue import Queue
 import heapq
-import sys
-
-sys.path.insert(0, '..')
 from core.common.Scheduler import Scheduler
 from core.common.Task import Task
-from core.common.Priorit_Task import Priorit_Task
+from core.common.Priority_Task import Priority_Task
 
 
 class Priority_non_prem_Scheduler(Scheduler):
@@ -36,7 +33,7 @@ class Priority_non_prem_Scheduler(Scheduler):
         task=self.min_heap[0]
         return task
 
-    def schedule(self) -> str:
+    def schedule(self) -> Task:
         """Return the next task in the queue if available."""
         if not self.min_heap:
             return None
@@ -44,17 +41,20 @@ class Priority_non_prem_Scheduler(Scheduler):
             self.current_task = self.rearrange_min_heap()
         if(self.current_task.burst_time >= 1):
             self.current_task.burst_time -= 1
-            return self.current_task.name
+            return self.current_task
         else:
             # Current task is finished
+            self.current_task.priority = -1
+            self.rearrange_min_heap()
             self.current_task = None
             heapq.heappop(self.min_heap)
+
 
             # Check if there are more tasks
             if self.min_heap:
                 self.current_task = self.rearrange_min_heap()
                 self.current_task.burst_time -= 1
-                return self.current_task.name
+                return self.current_task
             else:
                 return None
 

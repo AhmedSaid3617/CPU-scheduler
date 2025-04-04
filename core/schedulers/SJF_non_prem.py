@@ -1,8 +1,5 @@
 from queue import Queue
 import heapq
-import sys
-
-sys.path.insert(0, '..')
 from core.common.Scheduler import Scheduler
 from core.common.Task import Task
 from core.common.SJF_Task import SJF_Task
@@ -44,9 +41,10 @@ class SJF_non_prem_Scheduler(Scheduler):
             self.current_task = self.rearrange_min_heap()
         if(self.current_task.burst_time >= 1):
             self.current_task.burst_time -= 1
-            return self.current_task.name
+            return self.current_task
         else:
             # Current task is finished
+            self.rearrange_min_heap()
             self.current_task = None
             heapq.heappop(self.min_heap)
 
@@ -54,7 +52,7 @@ class SJF_non_prem_Scheduler(Scheduler):
             if self.min_heap:
                 self.current_task = self.rearrange_min_heap()
                 self.current_task.burst_time -= 1
-                return self.current_task.name
+                return self.current_task
             else:
                 return None
 
