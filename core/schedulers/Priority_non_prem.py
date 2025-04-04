@@ -33,7 +33,7 @@ class Priority_non_prem_Scheduler(Scheduler):
         task=self.min_heap[0]
         return task
 
-    def schedule(self) -> str:
+    def schedule(self) -> Task:
         """Return the next task in the queue if available."""
         if not self.min_heap:
             return None
@@ -41,7 +41,7 @@ class Priority_non_prem_Scheduler(Scheduler):
             self.current_task = self.rearrange_min_heap()
         if(self.current_task.burst_time >= 1):
             self.current_task.burst_time -= 1
-            return self.current_task.name
+            return self.current_task
         else:
             # Current task is finished
             self.current_task.priority = -1
@@ -54,7 +54,7 @@ class Priority_non_prem_Scheduler(Scheduler):
             if self.min_heap:
                 self.current_task = self.rearrange_min_heap()
                 self.current_task.burst_time -= 1
-                return self.current_task.name
+                return self.current_task
             else:
                 return None
 

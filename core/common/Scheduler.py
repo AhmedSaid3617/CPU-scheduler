@@ -23,7 +23,7 @@ class Scheduler(ABC):
             self.run(task)
     
     @abstractmethod
-    def schedule(self):
+    def schedule(self) -> Task:
         """Schedules the next task. this function returns task that should run now
         for example using FCFS scheduler if task 1 arrives first and
         has burt of 8 seconds after 5 seconds , we should output

@@ -41,7 +41,7 @@ class SJF_non_prem_Scheduler(Scheduler):
             self.current_task = self.rearrange_min_heap()
         if(self.current_task.burst_time >= 1):
             self.current_task.burst_time -= 1
-            return self.current_task.name
+            return self.current_task
         else:
             # Current task is finished
             self.rearrange_min_heap()
@@ -52,7 +52,7 @@ class SJF_non_prem_Scheduler(Scheduler):
             if self.min_heap:
                 self.current_task = self.rearrange_min_heap()
                 self.current_task.burst_time -= 1
-                return self.current_task.name
+                return self.current_task
             else:
                 return None
 

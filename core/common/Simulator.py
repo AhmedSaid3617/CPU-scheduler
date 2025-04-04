@@ -36,7 +36,7 @@ class Simulator():
         for task in tasks:  # loop over tasks and load each one independently
             self.load(task)
     
-    def next(self) ->str :
+    def next(self) -> Task :
         """
         Process the next batch of tasks and schedule one.
 
@@ -49,14 +49,14 @@ class Simulator():
             self.scheduler.load_bulk(self.batch[self.timestep])
         return self.scheduler.schedule()
     
-    def advance(self) -> str:
+    def advance(self) -> Task:
         """
         Same as Next but increments timestep by 1 after doing next
         Move the simulation forward by one timestep.
         """
-        name=self.next()
+        task=self.next()
         self.timestep = self.timestep + 1
-        return name
+        return task
     
     def reset(self) -> None:
         """
