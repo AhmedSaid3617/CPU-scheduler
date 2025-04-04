@@ -1,8 +1,5 @@
 from queue import Queue
 import heapq
-import sys
-
-sys.path.insert(0, '..')
 from core.common.Scheduler import Scheduler
 from core.common.Task import Task
 from core.common.Priority_Task import Priority_Task
