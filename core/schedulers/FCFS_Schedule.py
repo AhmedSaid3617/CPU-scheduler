@@ -16,7 +16,7 @@ class FCFS_Scheduler(Scheduler):
         """Reset the scheduler by clearing the queue."""
         self.queue = Queue()
     
-    def load(self, task: Task):
+    def run(self, task: Task):
         """
         Load a task into the scheduler multiple times based on burst time
         Queue Size for task as Large as bust time

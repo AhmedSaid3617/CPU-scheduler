@@ -13,14 +13,14 @@ class Scheduler(ABC):
         pass
     
     @abstractmethod
-    def load(self, task: Task) -> None:
+    def run(self, task: Task) -> None:
         """Load a task into the scheduler."""
         pass
     
     def load_bulk(self, tasks) -> None:
         """Load multiple tasks into the scheduler."""
         for task in tasks:
-            self.load(task)
+            self.run(task)
     
     @abstractmethod
     def schedule(self):
