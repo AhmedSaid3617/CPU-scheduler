@@ -44,6 +44,7 @@ class SJF_non_prem_Scheduler(Scheduler):
             return self.current_task.name
         else:
             # Current task is finished
+            self.rearrange_min_heap()
             self.current_task = None
             heapq.heappop(self.min_heap)
 

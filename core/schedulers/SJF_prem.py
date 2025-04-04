@@ -36,9 +36,10 @@ class SJF_prem_Scheduler(Scheduler):
         if(self.min_heap[0].burst_time >= 1):
             self.min_heap[0].burst_time -= 1
             name = self.min_heap[0].name
+            self.rearrange_min_heap()
             if self.min_heap[0].burst_time == 0:
                 heapq.heappop(self.min_heap)
-            self.rearrange_min_heap()
+
             return name
         else:
             return None
