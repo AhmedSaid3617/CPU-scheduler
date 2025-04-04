@@ -1,6 +1,5 @@
 from collections import defaultdict
 from typing import List, Tuple, Dict
-import sys
 from core.common.Task import Task
 from core.schedulers.FCFS_Schedule import FCFS_Scheduler
 
