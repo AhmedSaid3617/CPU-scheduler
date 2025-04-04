@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0, '..')
 from core.common.Scheduler import Scheduler
 from core.common.Task import Task
-from core.common.Priorit_Task import Priorit_Task
+from core.common.Priority_Task import Priority_Task
 
 
 class Priority_non_prem_Scheduler(Scheduler):
