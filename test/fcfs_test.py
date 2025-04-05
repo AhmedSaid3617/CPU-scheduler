@@ -68,5 +68,38 @@ class TestFCFS(unittest.TestCase):
 
         self.assertEqual(sim.advance(), None)
 
+    def test_case_4(self):
+        sch = FCFS_Scheduler()
+        sim = Simulator(sch)
+
+        tasks_list = [Task(name="task 1", arr_time=2, burst_time=4),
+                      Task(name="task 2", arr_time=3, burst_time=3),
+                      Task(name="task 3", arr_time=2, burst_time=8)]
+
+        sim.load_bulk(tasks_list)
+
+        for i in range(4 + 3 + 8 + 2):
+            sim.advance()
+
+        self.assertTrue(sim.history_matches([
+            None,
+            None,
+            tasks_list[0],
+            tasks_list[0],
+            tasks_list[0],
+            tasks_list[0],
+            tasks_list[2],
+            tasks_list[2],
+            tasks_list[2],
+            tasks_list[2],
+            tasks_list[2],
+            tasks_list[2],
+            tasks_list[2],
+            tasks_list[2],
+            tasks_list[1],
+            tasks_list[1],
+            tasks_list[1],
+        ]))
+
 if __name__ == "__main__":
     unittest.main()
