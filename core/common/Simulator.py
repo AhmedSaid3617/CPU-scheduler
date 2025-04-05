@@ -80,7 +80,7 @@ class Simulator():
         self.scheduler.reset()
 
     def accept(self, visitor):
-        visitor.visit(self)
+        return visitor.visit(self)
 
 """
 tests ran on Simulator file
