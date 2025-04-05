@@ -17,8 +17,9 @@ class Simulator():
         Note: batch has arrival times with all tasks that have arrived in that time
         """
         self.scheduler = scheduler
-        self.batch=defaultdict(list)
+        self.batch = defaultdict(list)
         self.timestep = 0
+        self.history = list() # what process executed in each timestep
 
     def load(self, task: Task):
         """
@@ -52,10 +53,24 @@ class Simulator():
         """
         Same as Next but increments timestep by 1 after doing next
         Move the simulation forward by one timestep.
+        Appends to history the task that runned in this timestep, even if it was None
         """
         task=self.next()
         self.timestep = self.timestep + 1
+        self.history.append(task)
         return task
+
+    def history_matches(self, tasks: List[Task]) -> bool:
+        """
+        Match history of scheduled CPU tasks with a given list of tasks.
+        Does not affect the history of the simulator.
+        If given list is smaller than history, it will match only the first len(tasks) elements.
+        """
+        for i in range(len(tasks)):
+            if self.history[i] != tasks[i]:
+                return False
+
+        return True
     
     def reset(self) -> None:
         """
@@ -63,6 +78,9 @@ class Simulator():
         """
         self.timestep = 0
         self.scheduler.reset()
+
+    def accept(self, visitor):
+        visitor.visit(self)
 
 """
 tests ran on Simulator file
