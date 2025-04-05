@@ -16,7 +16,7 @@ class Gannt():
         if self.canvas is None:
             self.fig, self.ax = plt.subplots(figsize=(20, 2))
             self.canvas = FigureCanvasTkAgg(self.fig, master=self.parent)
-            self.canvas.get_tk_widget().pack(fill="both", expand=True,padx=10, pady=10)
+            self.canvas.get_tk_widget().pack(fill="both", expand=True,padx=10, pady=5)
         else:
             self.ax.clear()  # Clear previous plot instead of destroying canvas
 
