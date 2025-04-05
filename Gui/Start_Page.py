@@ -3,6 +3,21 @@ from tkinter import ttk
 from tkinter import messagebox
 
 from core.common.Task import Task
+from core.schedulers.FCFS_Schedule import *
+from core.schedulers.Priority_non_prem import *
+from core.schedulers.Priority_prem import *
+from core.schedulers.SJF_non_prem import *
+from core.schedulers.SJF_prem import *
+from core.common.Simulator import Simulator
+
+class SchedulerNames:
+    FCFS = str("FCFS")
+    SJF_NON_PREM = str("SJF (Non-preemptive)")
+    SRTF_PREM = str("SRTF (Preemptive)")
+    PRIORITY_PREM = str("Priority (Preemptive)")
+    PRIORITY_NON_PREM = str("Priority (Non-preemptive)")
+    ROUND_ROBIN = str("Round Robin")
+
 
 class TaskManagerApp:
     ENTRY_WIDTH = 15
@@ -11,6 +26,7 @@ class TaskManagerApp:
         self.root.title("CPU Task Manager")
         self.root.geometry("900x600")
         self.tasks_list = []
+        self.started = False
 
         # Configure grid columns to match Treeview column widths
         root.grid_columnconfigure(0, weight=0)  # Column 0 stays compact
@@ -18,23 +34,23 @@ class TaskManagerApp:
         root.grid_columnconfigure(2, weight=0)  # Column 2 stays compact
 
         # Dropdown menu for choosing scheduler type.
-        chosen_scheduler = tk.StringVar()
-        scheduler_menu = ttk.OptionMenu(root, chosen_scheduler, "Scheduler Type", "FCFS", "SJF")
-        scheduler_menu.config(width=20)
-        scheduler_menu.grid(row=0, column=0, padx=10, pady=20, sticky="W")
+        self.scheduler_types_strings = ["Scheduler Type", SchedulerNames.FCFS, SchedulerNames.SJF_PREM, SchedulerNames.SRTF, SchedulerNames.PRIORITY_PREM, SchedulerNames.PRIORITY_NON_PREM, SchedulerNames.ROUND_ROBIN]
+        self.chosen_scheduler = tk.StringVar()
+        self.scheduler_menu = ttk.OptionMenu(root, self.chosen_scheduler, *self.scheduler_types_strings, command=self.update_options)
+        self.scheduler_menu.config(width=20)
+        self.scheduler_menu.grid(row=0, column=0, padx=10, pady=20, sticky="W")
 
         # Task labels
         frame_task_input = tk.Frame()
         task_name_label = tk.Label(frame_task_input, text="Task Name")
         burst_time_label = tk.Label(frame_task_input, text="Burst Time")
         arr_time_label = tk.Label(frame_task_input, text="Arrival Time")
-        priority_label = tk.Label(frame_task_input, text="Priority")
+        self.priority_label = tk.Label(frame_task_input, text="Priority")
 
-        frame_task_input.grid(row=1, column=0, padx=10, pady=10, sticky="w", columnspan=3)
+        frame_task_input.grid(row=1, column=0, padx=10, pady=10, sticky="w", columnspan=5)
         task_name_label.grid(row=0, column=0, padx=10, pady=0, sticky="w")
         burst_time_label.grid(row=0, column=1, padx=10, pady=0, sticky="w")
         arr_time_label.grid(row=0, column=2, padx=10, pady=0, sticky="w")
-        priority_label.grid(row=0, column=3, padx=10, pady=0, sticky="w")
         
 
         # Task input
@@ -47,7 +63,6 @@ class TaskManagerApp:
         self.entry_task_name.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="w")
         self.entry_burst_time.grid(row=1, column=1, padx=10, pady=(0, 10), sticky="w")
         self.entry_arr_time.grid(row=1, column=2, padx=10, pady=(0, 10), sticky="w")
-        self.entry_priority.grid(row=1, column=3, padx=10, pady=(0, 10), sticky="w")
         button_task_input.grid(row=1, column=5, padx=10, pady=(0, 10), sticky="w")
 
         # Task table
@@ -63,9 +78,32 @@ class TaskManagerApp:
         self.task_tree.column('Priority', width=150)
         self.task_tree.grid(row=2, column=0, padx=10, pady=(10, 0), columnspan=3, sticky="nsew")
 
+        # Bottom
+        frame_bottom = tk.Frame(root)
+        self.quantum_entry = tk.Entry(frame_bottom, width=self.ENTRY_WIDTH)
+        self.quantum_label = tk.Label(frame_bottom, text="Quantum time:")
+        self.live_checkbox = tk.Checkbutton(frame_bottom)
+        live_label = tk.Label(frame_bottom, text="Enable live scheduling:")
+        start_button = tk.Button(root, text="Start", command=self.start_simulation)
+
+        frame_bottom.grid(row=3, column=0, padx=10, pady=20, sticky="w")
+        live_label.grid(row=0, column=2, padx=(20, 0), pady=20, sticky="e")
+        self.live_checkbox.grid(row=0, column=3, padx=5, pady=20, sticky="w")
+        start_button.grid(row=3, column=2, padx=20, pady=20, sticky="e")
+
+        # List of scheduler-dependant options
+        self.optional_widgets = [self.quantum_entry, self.quantum_label, self.entry_priority, self.priority_label]
+        
+
     def add_task(self):
         try:
-            new_task = Task(self.entry_task_name.get(), int(self.entry_arr_time.get()), int(self.entry_arr_time.get()))
+            new_task = Task(self.entry_task_name.get(), int(self.entry_arr_time.get()), int(self.entry_burst_time.get()))
+            chosen_option_indx = self.scheduler_types_strings.index(self.chosen_scheduler.get())
+
+            # If priority is needed
+            if (chosen_option_indx == 4 or chosen_option_indx == 5):
+                new_task.priority = int(self.entry_priority.get())
+            
             for task in self.tasks_list:
                 if task.name == new_task.name:
                     messagebox.showwarning(title="Duplicate Tasks", message="Please enter unique task names.")
@@ -75,7 +113,39 @@ class TaskManagerApp:
         except TypeError:
             messagebox.showerror(title="Input Error", message="Incorrect parameters in task input.")
         print("Clicked")
-        ...
+    
+
+    def start_simulation(self):
+        self.started = True
+        if self.chosen_scheduler.get() == SchedulerNames.FCFS:
+            scheduler = FCFS_Scheduler()
+        elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_NON_PREM:
+            scheduler = Priority_non_prem_Scheduler()
+        elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_PREM:
+            scheduler = Priority_prem_Scheduler()
+        elif self.chosen_scheduler.get() == SchedulerNames.SJF_NON_PREM:
+            scheduler = SJF_non_prem_Scheduler()
+        elif self.chosen_scheduler.get() == SchedulerNames.SRTF_PREM:
+            scheduler = SJF_prem_Scheduler()
+
+        sim = Simulator(scheduler)
+        sim.load_bulk(self.tasks_list)
+
+    
+    def update_options(self, *args):
+        
+        for widget in self.optional_widgets:
+            widget.grid_remove()
+
+        if self.chosen_scheduler.get() == SchedulerNames.PRIORITY_PREM or self.chosen_scheduler.get() == SchedulerNames.PRIORITY_NON_PREM:
+            self.priority_label.grid(row=0, column=3, padx=10, pady=0, sticky="w")
+            self.entry_priority.grid(row=1, column=3, padx=10, pady=(0, 10), sticky="w")
+
+        elif self.chosen_scheduler.get() == SchedulerNames.ROUND_ROBIN:
+            self.quantum_label.grid(row=0, column=0, padx=10, pady=20, sticky="w")
+            self.quantum_entry.grid(row=0, column=1, padx=10, pady=20, sticky="w")
+            
+        
 
 if __name__ == "__main__":
     root = tk.Tk()
