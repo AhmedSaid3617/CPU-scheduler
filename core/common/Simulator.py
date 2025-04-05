@@ -3,7 +3,7 @@ from typing import List, Tuple, Dict
 from core.common.Task import Task
 from core.schedulers.FCFS_Schedule import FCFS_Scheduler
 
-class Simulator():
+class Simulator:
     """"
     with Simulator Class we can simulate each time step and get an ouput of task that runned
     the past second , also we can load tasks and list of tasks.
@@ -78,6 +78,16 @@ class Simulator():
         """
         self.timestep = 0
         self.scheduler.reset()
+
+    def are_all_tasks_loaded(self) -> bool:
+        """
+        Check if all tasks have been loaded to the scheduler.
+        This does not check if the tasks have been scheduled, only if they have been loaded.
+        """
+        for key in self.batch.keys():
+            if key > self.timestep:
+                return False
+        return True
 
     def accept(self, visitor):
         return visitor.visit(self)
