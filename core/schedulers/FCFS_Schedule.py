@@ -21,9 +21,9 @@ class FCFS_Scheduler(Scheduler):
         example: 8 seconds burst time = 8 entries of task in queue
         """
         for _ in range(task.burst_time):
-            self.queue.put(task.name)
+            self.queue.put(task)
     
-    def schedule(self) ->str:
+    def schedule(self) -> Task:
         """Return the next task in the queue if available."""
         if self.queue.empty():
             return None
