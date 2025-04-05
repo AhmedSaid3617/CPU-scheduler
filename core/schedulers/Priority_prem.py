@@ -37,10 +37,10 @@ class Priority_prem_Scheduler(Scheduler):
             return None
         if(self.min_heap[0].burst_time >= 1):
             self.min_heap[0].burst_time -= 1
-            name = self.min_heap[0].name
+            task = self.min_heap[0]
             if self.min_heap[0].burst_time == 0:
                 heapq.heappop(self.min_heap)
             self.rearrange_min_heap()
-            return name
+            return task
         else:
             return None
