@@ -12,6 +12,8 @@ class Gannt():
     def create_gantt_chart(self, start, task_list):
         colour = ["blue", "red", "green", "purple", "brown", "magenta"]
 
+        task_dict = {}
+
         # First time setup: create figure and canvas once
         if self.canvas is None:
             self.fig, self.ax = plt.subplots(figsize=(20, 2))
@@ -23,9 +25,16 @@ class Gannt():
         # Draw bars
         count=0
         for i, task_name in enumerate(task_list):
-            count=count+1 if i !=0 and task_list[i-1] != task_list[i] else count
+            if task_name not in task_dict:
+                count=count+1
+                task_dict[task_name] = count % 6
+            else:
+                count = task_dict[task_name]
+                
+                
             self.ax.barh(0, width=1, left=i, height=1, color=colour[count % 6])
             self.ax.text(i + 0.5, 0, task_name, ha='center', va='center', color="white", fontsize=12)
+            
 
         self.ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
         self.ax.set_xlim(0, max(start + len(task_list), 20))

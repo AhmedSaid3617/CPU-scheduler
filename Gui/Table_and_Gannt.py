@@ -5,7 +5,9 @@ from core.common.Simulator import Simulator
 from core.common.Task import Task
 from Gannt import Gannt
 from Tree import Tree
-
+from core.utils import is_finished
+from Statistics_Window import StatisticsWindow
+from core.common.SchedulerStats import SchedulerStats
 
 class SchedulerApp:
     def __init__(self, simulator:Simulator):
@@ -48,17 +50,23 @@ class SchedulerApp:
         if self.current_time == 0:
             self.root.after(1000,self.run)
             self.current_time += 1
-        elif self.current_time <= self.total_time:
-            self.root.after(1000, self.run)  # Schedule next tick
+        else:
+            if not is_finished(self.simulator): 
+                self.root.after(1000, self.run)  # Schedule next tick
+                task = self.simulator.advance()
+                if task:
+                    self.tree.update(task.name)
+                    self.task_list.append(task.name)
+                    print(self.task_list)
+                    self.chart.create_gantt_chart(self.current_time, self.task_list)
 
-            task = self.simulator.advance()
-            if task:
-                self.tree.update(task.name)
-                self.task_list.append(task.name)
-                print(self.task_list)
-                self.chart.create_gantt_chart(self.current_time, self.task_list)
+                self.current_time += 1
+            else:
+                stat = SchedulerStats()
+                result = self.simulator.accept(stat)
+                StatisticsWindow(result["avg_turnaround"], result["avg_waiting"], result["avg_response"])
 
-            self.current_time += 1
+
 
 
 if __name__ == "__main__":
