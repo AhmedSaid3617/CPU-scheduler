@@ -53,7 +53,7 @@ class Simulator():
         """
         Same as Next but increments timestep by 1 after doing next
         Move the simulation forward by one timestep.
-        Appends to history the task that runned in this timestep, even if it was None
+        Appends to history the task that ran in this timestep, even if it was None
         """
         task=self.next()
         self.timestep = self.timestep + 1
