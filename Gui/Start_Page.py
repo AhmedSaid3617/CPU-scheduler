@@ -9,6 +9,7 @@ from core.schedulers.Priority_prem import *
 from core.schedulers.SJF_non_prem import *
 from core.schedulers.SJF_prem import *
 from core.common.Simulator import Simulator
+from Table_and_Gannt import SchedulerApp
 
 class SchedulerNames:
     FCFS = str("FCFS")
@@ -34,7 +35,7 @@ class TaskManagerApp:
         root.grid_columnconfigure(2, weight=0)  # Column 2 stays compact
 
         # Dropdown menu for choosing scheduler type.
-        self.scheduler_types_strings = ["Scheduler Type", SchedulerNames.FCFS, SchedulerNames.SJF_PREM, SchedulerNames.SRTF, SchedulerNames.PRIORITY_PREM, SchedulerNames.PRIORITY_NON_PREM, SchedulerNames.ROUND_ROBIN]
+        self.scheduler_types_strings = ["Scheduler Type", SchedulerNames.FCFS, SchedulerNames.SJF_NON_PREM, SchedulerNames.SRTF_PREM, SchedulerNames.PRIORITY_PREM, SchedulerNames.PRIORITY_NON_PREM, SchedulerNames.ROUND_ROBIN]
         self.chosen_scheduler = tk.StringVar()
         self.scheduler_menu = ttk.OptionMenu(root, self.chosen_scheduler, *self.scheduler_types_strings, command=self.update_options)
         self.scheduler_menu.config(width=20)
@@ -130,6 +131,8 @@ class TaskManagerApp:
 
         sim = Simulator(scheduler)
         sim.load_bulk(self.tasks_list)
+
+        SchedulerApp(sim)
 
     
     def update_options(self, *args):

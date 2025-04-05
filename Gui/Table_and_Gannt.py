@@ -8,12 +8,13 @@ from Tree import Tree
 
 
 class SchedulerApp:
-    def __init__(self):
+    def __init__(self, simulator:Simulator):
         self.root = tk.Tk()
         self.root.title("CPU Scheduler - Process Table")
         self.root.geometry("2000x2000")
         self.current_time = 0
         self.task_list = []
+        self.simulator = simulator
 
         self.setup_ui()
         self.setup_simulation()
@@ -33,22 +34,13 @@ class SchedulerApp:
         self.chart.create_gantt_chart(0, [])
 
     def setup_simulation(self):
-        self.scheduler = FCFS_Scheduler()
-        self.simulator = Simulator(self.scheduler)
 
-        # Sample tasks
-        tasks = [
-            Task(name="task 1", arr_time=0, burst_time=1),
-            Task(name="task 2", arr_time=1, burst_time=7),
-            Task(name="task 3", arr_time=2, burst_time=1)
-        ]
+        #self.simulator.load_bulk(tasks)
 
-        self.simulator.load_bulk(tasks)
-
-        self.total_time = sum(task.burst_time for task in tasks)
-
-        for task in tasks:
-            self.tree.add(task)
+        self.total_time = sum(task.burst_time for tasks in self.simulator.batch.values() for task in tasks)
+        for tasks in self.simulator.batch.values():
+            for task in tasks:
+                self.tree.add(task)
 
         self.run()
 
