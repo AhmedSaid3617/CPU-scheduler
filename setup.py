@@ -5,7 +5,7 @@ setup(
     version="0.1",
     description="CPU scheduler simulator project",
     license="MIT",
-    packages=find_packages(include=["core.common", "core.schedulers"]),
+    packages=find_packages(include=["core.common", "core.schedulers", "core"]),
     python_requires=">=3.6",
     install_requires=[],
     extras_require={
