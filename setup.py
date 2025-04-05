@@ -7,7 +7,7 @@ setup(
     license="MIT",
     packages=find_packages(include=["core.common", "core.schedulers"]),
     python_requires=">=3.6",
-    install_requires=[],
+    install_requires=["tk-tools", "matplotlib"],
     extras_require={
         "test": ["pytest>=7.0", "setuptools"]
     },

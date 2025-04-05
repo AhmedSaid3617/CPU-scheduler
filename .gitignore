@@ -2,3 +2,5 @@
 .vscode
 venv/
 *.pycjjj
+env
+cpu_scheduler_simulator.egg-info
