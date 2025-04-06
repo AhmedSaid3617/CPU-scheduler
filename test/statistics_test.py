@@ -1,10 +1,12 @@
 import unittest
 
+from core.common.AreLoadedTasksSatisfied import AreLoadedTasksSatisfied
 from core.common.Simulator import Simulator
 from core.common.SchedulerStats import SchedulerStats
 from core.common.Task import Task
 from core.schedulers.FCFS_Schedule import FCFS_Scheduler
-
+from core.schedulers.SJF_prem import SJF_prem_Scheduler
+from core.utils import is_finished
 
 class TestStatistics(unittest.TestCase):
     def test_case_1(self):
@@ -30,6 +32,18 @@ class TestStatistics(unittest.TestCase):
         self.assertEqual(result["avg_turnaround"], 11.0)
         self.assertAlmostEqual(result["avg_waiting"], 6.33, places=2)
         self.assertAlmostEqual(result["avg_response"], 6.33, places=2)
+    
+    def test_case_2(self):
+        sch = SJF_prem_Scheduler()
+        sim = Simulator(sch)
+
+        sim.load(Task("p1", 0, 10))
+        for i in range(10):
+            self.assertFalse(is_finished(sim))
+            sim.advance()
+        
+        self.assertTrue(is_finished(sim=sim))
+        
 
 if __name__ == "__main__":
     unittest.main()

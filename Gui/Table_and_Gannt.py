@@ -10,8 +10,8 @@ from Statistics_Window import StatisticsWindow
 from core.common.SchedulerStats import SchedulerStats
 
 class SchedulerApp:
-    def __init__(self, simulator:Simulator):
-        self.root = tk.Tk()
+    def __init__(self, simulator:Simulator, root:tk.Tk):
+        self.root = tk.Toplevel(root)
         self.root.title("CPU Scheduler - Process Table")
         self.root.geometry("2000x2000")
         self.current_time = 0
@@ -20,7 +20,6 @@ class SchedulerApp:
 
         self.setup_ui()
         self.setup_simulation()
-        self.root.mainloop()
 
     def setup_ui(self):
         self.top_frame = ttk.Frame(self.root)

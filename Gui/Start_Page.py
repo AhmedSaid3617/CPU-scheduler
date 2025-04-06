@@ -27,7 +27,8 @@ class TaskManagerApp:
         self.root.title("CPU Task Manager")
         self.root.geometry("900x600")
         self.tasks_list = []
-        self.started = False
+        self.started_sim = False
+        #self.scheduler_app = None
 
         # Configure grid columns to match Treeview column widths
         root.grid_columnconfigure(0, weight=0)  # Column 0 stays compact
@@ -98,13 +99,20 @@ class TaskManagerApp:
 
     def add_task(self):
         try:
-            new_task = Task(self.entry_task_name.get(), int(self.entry_arr_time.get()), int(self.entry_burst_time.get()))
-            chosen_option_indx = self.scheduler_types_strings.index(self.chosen_scheduler.get())
+            
+            # Live update option.
+            if self.started_sim:
+                new_task = Task(self.entry_task_name.get(), self.scheduler_app.current_time, int(self.entry_burst_time.get()))
+                self.simulator.load(new_task)
+            else:
+                new_task = Task(self.entry_task_name.get(), int(self.entry_arr_time.get()), int(self.entry_burst_time.get()))
+                self.chosen_option_indx = self.scheduler_types_strings.index(self.chosen_scheduler.get())
 
             # If priority is needed
-            if (chosen_option_indx == 4 or chosen_option_indx == 5):
+            if (self.chosen_option_indx == 4 or self.chosen_option_indx == 5):
                 new_task.priority = int(self.entry_priority.get())
             
+            # TODO: we need to add an option for Round Robin.
             for task in self.tasks_list:
                 if task.name == new_task.name:
                     messagebox.showwarning(title="Duplicate Tasks", message="Please enter unique task names.")
@@ -113,11 +121,10 @@ class TaskManagerApp:
             self.task_tree.insert('', 'end', values=(new_task.name, new_task.burst_time, new_task.arr_time, new_task.priority))
         except TypeError:
             messagebox.showerror(title="Input Error", message="Incorrect parameters in task input.")
-        print("Clicked")
     
 
     def start_simulation(self):
-        self.started = True
+        self.started_sim = True
         if self.chosen_scheduler.get() == SchedulerNames.FCFS:
             scheduler = FCFS_Scheduler()
         elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_NON_PREM:
@@ -129,10 +136,12 @@ class TaskManagerApp:
         elif self.chosen_scheduler.get() == SchedulerNames.SRTF_PREM:
             scheduler = SJF_prem_Scheduler()
 
-        sim = Simulator(scheduler)
-        sim.load_bulk(self.tasks_list)
+        self.simulator = Simulator(scheduler)
+        self.simulator.load_bulk(self.tasks_list)
 
-        SchedulerApp(sim)
+        self.scheduler_app = SchedulerApp(self.simulator, self.root)
+        #self.scheduler_app.root.mainloop()
+        
 
     
     def update_options(self, *args):

@@ -37,7 +37,7 @@ class Gannt():
             
 
         self.ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
-        self.ax.set_xlim(0, max(start + len(task_list), 20))
+        self.ax.set_xlim(0, max(len(task_list), 20))
         self.ax.set_yticks([])
         self.ax.set_xlabel('Time', fontsize=12)
         self.ax.set_title('Gantt Chart', fontsize=14)
