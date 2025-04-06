@@ -3,10 +3,10 @@ from tkinter import ttk
 from core.schedulers.FCFS_Schedule import FCFS_Scheduler
 from core.common.Simulator import Simulator
 from core.common.Task import Task
-from Gannt import Gannt
-from Tree import Tree
+from Gui.Gannt import Gannt
+from Gui.Tree import Tree
 from core.utils import is_finished
-from Statistics_Window import StatisticsWindow
+from Gui.Statistics_Window import StatisticsWindow
 from core.common.SchedulerStats import SchedulerStats
 
 class SchedulerApp(tk.Toplevel):

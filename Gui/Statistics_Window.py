@@ -18,7 +18,6 @@ class StatisticsWindow(tk.Toplevel):
 
     def setup_styles(self):
         style = ttk.Style()
-        style.theme_use("clam")
         style.configure("Statistics.TLabel", font=("Segoe UI", 12), background="#ffffff", foreground="#333333")
         style.configure("Statistics.Title.TLabel", font=("Segoe UI", 16, "bold"), background="#ffffff", foreground="#2c3e50")
         style.configure("Statistics.Value.TLabel", font=("Segoe UI", 12, "bold"), foreground="#1abc9c", background="#ffffff")

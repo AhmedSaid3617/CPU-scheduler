@@ -9,7 +9,7 @@ from core.schedulers.Priority_prem import *
 from core.schedulers.SJF_non_prem import *
 from core.schedulers.SJF_prem import *
 from core.common.Simulator import Simulator
-from Table_and_Gannt import SchedulerApp
+from Gui.Table_and_Gannt import SchedulerApp
 
 class SchedulerNames:
     FCFS = str("FCFS")
