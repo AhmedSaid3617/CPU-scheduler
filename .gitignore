@@ -5,5 +5,4 @@ venv/
 env
 cpu_scheduler_simulator.egg-info
 build
-dist
 .idea
