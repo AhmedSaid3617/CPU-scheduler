@@ -18,11 +18,10 @@ class AreLoadedTasksSatisfied:
             if task is not None:
                 burst[task] += 1
 
-        # Make sure all batched tasks are present in the history
-        for tasks in simulator.batch.values():
-            for task in tasks:
-                if task not in burst:
-                    return False
+        # Make sure all simulator tasks are present in the history
+        for task in simulator.tasks:
+            if task not in burst:
+                return False
 
         # Make sure tasks in history are satisfied
         for task in burst.keys():

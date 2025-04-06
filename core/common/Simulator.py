@@ -1,3 +1,4 @@
+import copy
 from collections import defaultdict
 from typing import List, Tuple, Dict
 from core.common.Task import Task
@@ -20,6 +21,7 @@ class Simulator:
         self.batch = defaultdict(list)
         self.timestep = 0
         self.history = list() # what process executed in each timestep
+        self.tasks = set() # set of all tasks that have been loaded into the simulator
 
     def load(self, task: Task):
         """
@@ -27,7 +29,8 @@ class Simulator:
         index with key arrival time and append the task
         """
         arr_time = task.arr_time  # Absolute time
-        self.batch[arr_time].append(task)
+        self.tasks.add(task)
+        self.batch[arr_time].append(copy.copy(task)) # Copy the task to avoid modifying the original
     
     def load_bulk(self, tasks: List):
         """
@@ -44,6 +47,7 @@ class Simulator:
         if there loads all tasks in that arrival time
 
         DOES NOT INCREMENT TIME ( ask shams why )
+        Because sim.advance is responsible for incrementing time and returning a clean Task object
         """
         if self.timestep in self.batch:
             self.scheduler.load_bulk(self.batch[self.timestep])
@@ -56,6 +60,14 @@ class Simulator:
         Appends to history the task that ran in this timestep, even if it was None
         """
         task=self.next()
+
+        # Find the task in self.tasks that matches the task returned by the scheduler
+        if task is not None:
+            for t in self.tasks:
+                if t.name == task.name:
+                    task = t
+                    break
+
         self.timestep = self.timestep + 1
         self.history.append(task)
         return task
