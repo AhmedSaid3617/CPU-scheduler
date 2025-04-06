@@ -28,9 +28,9 @@ class Gannt():
             if task_name != "Idle":
                 if task_name not in task_dict:
                     count=count+1
-                    task_dict[task_name] = colour[count % 6]
+                    task_dict[task_name] = colour[count % (len(colour))]
 
-                print(count%6,colour[count%6])
+                print(count%(len(colour)),colour[count%(len(colour))])
                 self.ax.barh(0, width=1, left=i, height=1, color=task_dict[task_name])
                 self.ax.text(i + 0.5, 0, task_name, ha='center', va='center', color="white", fontsize=12)
 
