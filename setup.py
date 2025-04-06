@@ -6,7 +6,7 @@ setup(
     description="CPU scheduler simulator project",
     license="MIT",
     packages=find_packages(include=["core.common", "core.schedulers", "core"]),
-    python_requires=">=3.12.2",
+    python_requires=">=3.6",
     install_requires=["matplotlib>=3.0", "tk-tools"],
     extras_require={
         "test": ["pytest>=7.0", "setuptools"]
