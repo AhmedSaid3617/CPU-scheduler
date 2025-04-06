@@ -10,14 +10,13 @@ from Statistics_Window import StatisticsWindow
 from core.common.SchedulerStats import SchedulerStats
 
 class SchedulerApp(tk.Toplevel):
-    def __init__(self,parent, simulator:Simulator):
-        super().__init__(parent)
+    def __init__(self, simulator:Simulator):
+        super().__init__()
         self.title("CPU Scheduler - Process Table")
-        self.geometry("2000x2000")
+        self.geometry("990x1030+920+50")
         self.current_time = 0
         self.task_list = []
         self.simulator = simulator
-        self.parent = parent
 
         self.setup_ui()
         self.setup_simulation()
@@ -66,10 +65,11 @@ class SchedulerApp(tk.Toplevel):
             else:
                 stat = SchedulerStats()
                 result = self.simulator.accept(stat)
-                StatisticsWindow(self.parent,result["avg_turnaround"], result["avg_waiting"], result["avg_response"])
+                StatisticsWindow(result["avg_turnaround"], result["avg_waiting"], result["avg_response"])
 
 
 
 
 if __name__ == "__main__":
     SchedulerApp()
+

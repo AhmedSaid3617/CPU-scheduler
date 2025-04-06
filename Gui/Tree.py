@@ -7,21 +7,9 @@ class Tree:
         self.tree=None
 
     def create_tree(self):
-        style = ttk.Style()
-        style.configure("Treeview",
-                        background="blue",
-                        foreground="white",
-                        grid=True,
-                        rowheight=30,  # Adjust row height if necessary
-                        borderwidth=1,  # Add border around the table
-                        relief="solid")  # Make borders solid
-        style.configure("Treeview.Heading",
-                        font=("Arial", 10, "bold"),  # Font style and size
-                        foreground="green",  # Text color of the column header
-                        background="white")  # Background color of the column header
         # Define Treeview (table)
         columns = ("name", "arrival", "burst")
-        self.tree = ttk.Treeview(self.parent, columns=columns, show="headings", style="Treeview")
+        self.tree = ttk.Treeview(self.parent, columns=columns, show="headings")
         self.tree.heading("name", text="Process Name")
         self.tree.heading("arrival", text="Arrival Time")
         self.tree.heading("burst", text="Burst Time")

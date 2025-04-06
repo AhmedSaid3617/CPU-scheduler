@@ -25,7 +25,7 @@ class TaskManagerApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("CPU Task Manager")
-        self.geometry("900x600")
+        self.geometry("910x570+0+50")
         self.tasks_list = []
         self.started_sim = False
         #self.scheduler_app = None
@@ -68,7 +68,23 @@ class TaskManagerApp(tk.Tk):
         button_task_input.grid(row=1, column=5, padx=10, pady=(0, 10), sticky="w")
 
         # Task table
-        self.task_tree = ttk.Treeview(self, columns=('Name', 'Burst Time', 'Arrival Time', 'Priority'), show='headings')
+
+        style = ttk.Style()
+        style.configure("Treeview",
+                        background="blue",
+                        foreground="white",
+                        grid=True,
+                        rowheight=25,  # Adjust row height if necessary
+                        borderwidth=1,  # Add border around the table
+                        relief="solid", # Make borders solid
+                        font=("Arial", 10))
+        style.configure("Treeview.Heading",
+                        font=("Arial", 10, "bold"),  # Font style and size
+                        foreground="green",  # Text color of the column header
+                        background="white")  # Background color of the column header
+
+        self.task_tree = ttk.Treeview(self, columns=('Name', 'Burst Time', 'Arrival Time', 'Priority'), show='headings',style="Treeview")
+
         self.task_tree.heading('Name', text='Task Name')
         self.task_tree.heading('Burst Time', text='Burst Time')
         self.task_tree.heading('Arrival Time', text='Arrival Time')
@@ -139,7 +155,8 @@ class TaskManagerApp(tk.Tk):
         self.simulator = Simulator(scheduler)
         self.simulator.load_bulk(self.tasks_list)
 
-        self.scheduler_app = SchedulerApp(self,self.simulator)
+        self.scheduler_app = SchedulerApp(self.simulator)
+        # self.destroy()
         #self.scheduler_app.root.mainloop()
         
 
@@ -161,4 +178,6 @@ class TaskManagerApp(tk.Tk):
 
 if __name__ == "__main__":
     app = TaskManagerApp()
+    print(app.winfo_screenheight())
+    print(app.winfo_screenwidth())
     app.mainloop()
