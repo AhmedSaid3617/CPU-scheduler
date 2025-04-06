@@ -1,21 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 
-class StatisticsWindow:
-    def __init__(self, avg_turnaround, avg_waiting, avg_response):
+class StatisticsWindow(tk.Toplevel):
+    def __init__(self,parent,avg_turnaround, avg_waiting, avg_response):
+        super().__init__(parent)
         self.avg_turnaround = avg_turnaround
         self.avg_waiting = avg_waiting
         self.avg_response = avg_response
-
-        self.root = tk.Tk()
-        self.root.title("FCFS Gantt Chart Simulation")
-        self.root.geometry("600x400")
-        self.root.configure(bg="#ecf0f3")
+        self.title("FCFS Gantt Chart Simulation")
+        self.geometry("600x400")
+        self.configure(bg="#ecf0f3")
 
         self.setup_styles()
         self.setup_ui()
 
-        self.root.mainloop()
+        # self.root.mainloop()
 
     def setup_styles(self):
         style = ttk.Style()
@@ -27,11 +26,11 @@ class StatisticsWindow:
 
     def setup_ui(self):
         # Configure root grid
-        self.root.columnconfigure(0, weight=1)
-        self.root.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
 
         # Container frame
-        container = ttk.Frame(self.root, style="Card.TFrame", padding=20)
+        container = ttk.Frame(self, style="Card.TFrame", padding=20)
         container.grid(row=0, column=0, sticky="nsew", padx=40, pady=40)
 
         container.columnconfigure((0, 1), weight=1)

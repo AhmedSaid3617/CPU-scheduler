@@ -20,25 +20,25 @@ class SchedulerNames:
     ROUND_ROBIN = str("Round Robin")
 
 
-class TaskManagerApp:
+class TaskManagerApp(tk.Tk):
     ENTRY_WIDTH = 15
-    def __init__(self, root):
-        self.root = root
-        self.root.title("CPU Task Manager")
-        self.root.geometry("900x600")
+    def __init__(self):
+        super().__init__()
+        self.title("CPU Task Manager")
+        self.geometry("900x600")
         self.tasks_list = []
         self.started_sim = False
         #self.scheduler_app = None
 
         # Configure grid columns to match Treeview column widths
-        root.grid_columnconfigure(0, weight=0)  # Column 0 stays compact
-        root.grid_columnconfigure(1, weight=0)  # Column 1 stays compact
-        root.grid_columnconfigure(2, weight=0)  # Column 2 stays compact
+        self.grid_columnconfigure(0, weight=0)  # Column 0 stays compact
+        self.grid_columnconfigure(1, weight=0)  # Column 1 stays compact
+        self.grid_columnconfigure(2, weight=0)  # Column 2 stays compact
 
         # Dropdown menu for choosing scheduler type.
         self.scheduler_types_strings = ["Scheduler Type", SchedulerNames.FCFS, SchedulerNames.SJF_NON_PREM, SchedulerNames.SRTF_PREM, SchedulerNames.PRIORITY_PREM, SchedulerNames.PRIORITY_NON_PREM, SchedulerNames.ROUND_ROBIN]
         self.chosen_scheduler = tk.StringVar()
-        self.scheduler_menu = ttk.OptionMenu(root, self.chosen_scheduler, *self.scheduler_types_strings, command=self.update_options)
+        self.scheduler_menu = ttk.OptionMenu(self, self.chosen_scheduler, *self.scheduler_types_strings, command=self.update_options)
         self.scheduler_menu.config(width=20)
         self.scheduler_menu.grid(row=0, column=0, padx=10, pady=20, sticky="W")
 
@@ -68,7 +68,7 @@ class TaskManagerApp:
         button_task_input.grid(row=1, column=5, padx=10, pady=(0, 10), sticky="w")
 
         # Task table
-        self.task_tree = ttk.Treeview(root, columns=('Name', 'Burst Time', 'Arrival Time', 'Priority'), show='headings')
+        self.task_tree = ttk.Treeview(self, columns=('Name', 'Burst Time', 'Arrival Time', 'Priority'), show='headings')
         self.task_tree.heading('Name', text='Task Name')
         self.task_tree.heading('Burst Time', text='Burst Time')
         self.task_tree.heading('Arrival Time', text='Arrival Time')
@@ -81,12 +81,12 @@ class TaskManagerApp:
         self.task_tree.grid(row=2, column=0, padx=10, pady=(10, 0), columnspan=3, sticky="nsew")
 
         # Bottom
-        frame_bottom = tk.Frame(root)
+        frame_bottom = tk.Frame(self)
         self.quantum_entry = tk.Entry(frame_bottom, width=self.ENTRY_WIDTH)
         self.quantum_label = tk.Label(frame_bottom, text="Quantum time:")
         self.live_checkbox = tk.Checkbutton(frame_bottom)
         live_label = tk.Label(frame_bottom, text="Enable live scheduling:")
-        start_button = tk.Button(root, text="Start", command=self.start_simulation)
+        start_button = tk.Button(self, text="Start", command=self.start_simulation)
 
         frame_bottom.grid(row=3, column=0, padx=10, pady=20, sticky="w")
         live_label.grid(row=0, column=2, padx=(20, 0), pady=20, sticky="e")
@@ -139,7 +139,7 @@ class TaskManagerApp:
         self.simulator = Simulator(scheduler)
         self.simulator.load_bulk(self.tasks_list)
 
-        self.scheduler_app = SchedulerApp(self.simulator, self.root)
+        self.scheduler_app = SchedulerApp(self,self.simulator)
         #self.scheduler_app.root.mainloop()
         
 
@@ -160,6 +160,5 @@ class TaskManagerApp:
         
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = TaskManagerApp(root)
-    root.mainloop()
+    app = TaskManagerApp()
+    app.mainloop()
