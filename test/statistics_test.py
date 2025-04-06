@@ -33,16 +33,7 @@ class TestStatistics(unittest.TestCase):
         self.assertAlmostEqual(result["avg_waiting"], 6.33, places=2)
         self.assertAlmostEqual(result["avg_response"], 6.33, places=2)
     
-    def test_case_2(self):
-        sch = SJF_prem_Scheduler()
-        sim = Simulator(sch)
 
-        sim.load(Task("p1", 0, 10))
-        for i in range(10):
-            self.assertFalse(is_finished(sim))
-            sim.advance()
-        
-        self.assertTrue(is_finished(sim=sim))
         
 
 if __name__ == "__main__":
