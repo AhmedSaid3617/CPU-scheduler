@@ -38,13 +38,13 @@ class MyTestCase(unittest.TestCase):
         for _ in range(13):
             sim.advance()
         # Expected: T1 (0-5), T2 (5-10)
-        self.assertTrue(sim.history_matches([task_list[0]]*5 + [task_list[1]]*5))
+        self.assertTrue(sim.history_matches([task_list[1]]*5 + [task_list[0]]*5))
         stat = SchedulerStats()
         result = sim.accept(stat)
-        self.assertEqual(result["turnaround"][task_list[0]], 5)
-        self.assertEqual(result["waiting"][task_list[0]], 0)
-        self.assertEqual(result["turnaround"][task_list[1]], 10)
-        self.assertEqual(result["waiting"][task_list[1]], 5)
+        self.assertEqual(result["turnaround"][task_list[0]], 10)
+        self.assertEqual(result["waiting"][task_list[0]], 5)
+        self.assertEqual(result["turnaround"][task_list[1]], 5)
+        self.assertEqual(result["waiting"][task_list[1]], 0)
         self.assertAlmostEqual(result["avg_turnaround"], 7.5)
         self.assertAlmostEqual(result["avg_waiting"], 2.5)
 
