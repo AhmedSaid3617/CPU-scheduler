@@ -25,16 +25,15 @@ class Gannt():
         # Draw bars
         count=0
         for i, task_name in enumerate(task_list):
-            if task_name not in task_dict:
-                count=count+1
-                task_dict[task_name] = count % 6
-            else:
-                count = task_dict[task_name]
-                
-                
-            self.ax.barh(0, width=1, left=i, height=1, color=colour[count % 6])
-            self.ax.text(i + 0.5, 0, task_name, ha='center', va='center', color="white", fontsize=12)
-            
+            if task_name != "Idle":
+                if task_name not in task_dict:
+                    count=count+1
+                    task_dict[task_name] = colour[count % 6]
+
+                print(count%6,colour[count%6])
+                self.ax.barh(0, width=1, left=i, height=1, color=task_dict[task_name])
+                self.ax.text(i + 0.5, 0, task_name, ha='center', va='center', color="white", fontsize=12)
+
 
         self.ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
         self.ax.set_xlim(0, max(len(task_list), 20))

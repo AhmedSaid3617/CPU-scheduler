@@ -3,17 +3,17 @@ from tkinter import ttk
 from core.schedulers.FCFS_Schedule import FCFS_Scheduler
 from core.common.Simulator import Simulator
 from core.common.Task import Task
-from Gannt import Gannt
-from Tree import Tree
+from Gui.Gannt import Gannt
+from Gui.Tree import Tree
 from core.utils import is_finished
-from Statistics_Window import StatisticsWindow
+from Gui.Statistics_Window import StatisticsWindow
 from core.common.SchedulerStats import SchedulerStats
 
-class SchedulerApp:
-    def __init__(self, simulator:Simulator, root:tk.Tk):
-        self.root = tk.Toplevel(root)
-        self.root.title("CPU Scheduler - Process Table")
-        self.root.geometry("2000x2000")
+class SchedulerApp(tk.Toplevel):
+    def __init__(self, simulator:Simulator):
+        super().__init__()
+        self.title("CPU Scheduler - Process Table")
+        self.geometry("990x1030+920+50")
         self.current_time = 0
         self.task_list = []
         self.simulator = simulator
@@ -22,8 +22,8 @@ class SchedulerApp:
         self.setup_simulation()
 
     def setup_ui(self):
-        self.top_frame = ttk.Frame(self.root)
-        self.bottom_frame = ttk.Frame(self.root)
+        self.top_frame = ttk.Frame(self)
+        self.bottom_frame = ttk.Frame(self)
 
         self.top_frame.pack(side="top", fill="both", expand=True)
         self.bottom_frame.pack(side="bottom", fill="both", expand=True)
@@ -47,18 +47,20 @@ class SchedulerApp:
 
     def run(self):
         if self.current_time == 0:
-            self.root.after(1000,self.run)
+            self.after(1000,self.run)
             self.current_time += 1
         else:
             if not is_finished(self.simulator): 
-                self.root.after(1000, self.run)  # Schedule next tick
+                self.after(1000, self.run)  # Schedule next tick
                 task = self.simulator.advance()
                 if task:
                     self.tree.update(task.name)
                     self.task_list.append(task.name)
                     print(self.task_list)
-                    self.chart.create_gantt_chart(self.current_time, self.task_list)
-
+                else:
+                    self.task_list.append("Idle")
+                self.chart.create_gantt_chart(self.current_time, self.task_list)
+                print(self.current_time)
                 self.current_time += 1
             else:
                 stat = SchedulerStats()
@@ -70,3 +72,4 @@ class SchedulerApp:
 
 if __name__ == "__main__":
     SchedulerApp()
+
