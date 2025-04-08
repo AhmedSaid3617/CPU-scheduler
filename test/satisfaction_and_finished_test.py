@@ -42,3 +42,6 @@ class TestSatisfactionAndFinished(unittest.TestCase):
 
         # Fast alternative
         self.assertTrue(is_finished(sim))
+
+if __name__ == '__main__':
+    unittest.main()
