@@ -12,7 +12,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04  # Ensures Python 3.6 is available
+    runs-on: ubuntu-24.04  # Ensures Python 3.6 is available
 
     steps:
       - name: Checkout repository
