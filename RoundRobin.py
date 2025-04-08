@@ -19,7 +19,7 @@ class RoundRobinScheduler(Scheduler):
         self.queue.put(task)
 
     def schedule(self) -> Task:
-        if self.queue.empty() and self.current_task.burst_time == 0:
+        if self.queue.empty() and (self.current_task is None or self.current_task.burst_time == 0):
             return None
 
         task = self.current_task
