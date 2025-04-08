@@ -48,6 +48,17 @@ class SchedulerStats:
         Turnaround, Waiting and Response for each task
         Aggregated average
         """
+        if len(simulator.tasks) == 0:
+
+            return {
+                "turnaround": turnaround,
+                "waiting": waiting,
+                "response": response,
+                "avg_turnaround": 0,
+                "avg_waiting": 0,
+                "avg_response": 0,
+            }
+            
         return {
             "turnaround": turnaround,
             "waiting": waiting,
