@@ -18,6 +18,7 @@ class SchedulerNames:
     PRIORITY_PREM = str("Priority (Preemptive)")
     PRIORITY_NON_PREM = str("Priority (Non-preemptive)")
     ROUND_ROBIN = str("Round Robin")
+    DEFAULT = str("Scheduler Type")
 
 
 class TaskManagerApp(tk.Tk):
@@ -44,15 +45,15 @@ class TaskManagerApp(tk.Tk):
 
         # Task labels
         frame_task_input = tk.Frame()
-        task_name_label = tk.Label(frame_task_input, text="Task Name")
-        burst_time_label = tk.Label(frame_task_input, text="Burst Time")
-        arr_time_label = tk.Label(frame_task_input, text="Arrival Time")
+        self.task_name_label = tk.Label(frame_task_input, text="Task Name")
+        self.burst_time_label = tk.Label(frame_task_input, text="Burst Time")
+        self.arr_time_label = tk.Label(frame_task_input, text="Arrival Time")
         self.priority_label = tk.Label(frame_task_input, text="Priority")
 
         frame_task_input.grid(row=1, column=0, padx=10, pady=10, sticky="w", columnspan=5)
-        task_name_label.grid(row=0, column=0, padx=10, pady=0, sticky="w")
-        burst_time_label.grid(row=0, column=1, padx=10, pady=0, sticky="w")
-        arr_time_label.grid(row=0, column=2, padx=10, pady=0, sticky="w")
+        self.task_name_label.grid(row=0, column=0, padx=10, pady=0, sticky="w")
+        self.burst_time_label.grid(row=0, column=1, padx=10, pady=0, sticky="w")
+        self.arr_time_label.grid(row=0, column=2, padx=10, pady=0, sticky="w")
         
 
         # Task input
@@ -115,7 +116,6 @@ class TaskManagerApp(tk.Tk):
 
     def add_task(self):
         try:
-            
             # Live update option.
             if self.started_sim:
                 new_task = Task(self.entry_task_name.get(), self.scheduler_app.current_time, int(self.entry_burst_time.get()))
@@ -135,13 +135,24 @@ class TaskManagerApp(tk.Tk):
                     return
             self.tasks_list.append(new_task)
             self.task_tree.insert('', 'end', values=(new_task.name, new_task.burst_time, new_task.arr_time, new_task.priority))
+            if self.started_sim:
+                self.scheduler_app.tree.add(new_task)
+
+
+
         except TypeError:
             messagebox.showerror(title="Input Error", message="Incorrect parameters in task input.")
     
 
     def start_simulation(self):
+
+        # Create a scheduler.
         self.started_sim = True
-        if self.chosen_scheduler.get() == SchedulerNames.FCFS:
+        
+        if self.chosen_scheduler.get() == SchedulerNames.DEFAULT:
+            messagebox.showwarning(title="No Schduler Selected", message="Please choose a scheduler.")
+            return
+        elif self.chosen_scheduler.get() == SchedulerNames.FCFS:
             scheduler = FCFS_Scheduler()
         elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_NON_PREM:
             scheduler = Priority_non_prem_Scheduler()
@@ -152,12 +163,16 @@ class TaskManagerApp(tk.Tk):
         elif self.chosen_scheduler.get() == SchedulerNames.SRTF_PREM:
             scheduler = SJF_prem_Scheduler()
 
+        # Remove arrival time entry.
+        self.entry_arr_time.grid_remove()
+        self.arr_time_label.grid_remove()
+
+        # Create simulator and load window.
         self.simulator = Simulator(scheduler)
         self.simulator.load_bulk(self.tasks_list)
 
         self.scheduler_app = SchedulerApp(self.simulator)
-        # self.destroy()
-        #self.scheduler_app.root.mainloop()
+        
         
 
     
