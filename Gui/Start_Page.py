@@ -101,14 +101,16 @@ class TaskManagerApp(tk.Tk):
         frame_bottom = tk.Frame(self)
         self.quantum_entry = tk.Entry(frame_bottom, width=self.ENTRY_WIDTH)
         self.quantum_label = tk.Label(frame_bottom, text="Quantum time:")
-        self.live_checkbox = tk.Checkbutton(frame_bottom)
-        live_label = tk.Label(frame_bottom, text="Enable live scheduling:")
+        self.live_status = tk.BooleanVar()
+        self.live_checkbox = tk.Checkbutton(frame_bottom, text="Live Scheduling", variable=self.live_status)
         start_button = tk.Button(self, text="Start", command=self.start_simulation)
+        self.clear_button = tk.Button(self, text="Clear", command=self.clear_table)
 
         frame_bottom.grid(row=3, column=0, padx=10, pady=20, sticky="w")
-        live_label.grid(row=0, column=2, padx=(20, 0), pady=20, sticky="e")
         self.live_checkbox.grid(row=0, column=3, padx=5, pady=20, sticky="w")
         start_button.grid(row=3, column=2, padx=20, pady=20, sticky="e")
+        self.clear_button.grid(row=3, column=1, padx=20, pady=20, sticky="ew")
+        
 
         # List of scheduler-dependant options
         self.optional_widgets = [self.quantum_entry, self.quantum_label, self.entry_priority, self.priority_label]
@@ -171,13 +173,18 @@ class TaskManagerApp(tk.Tk):
         self.simulator = Simulator(scheduler)
         self.simulator.load_bulk(self.tasks_list)
 
-        self.scheduler_app = SchedulerApp(self.simulator)
         
-        
+        if self.live_status.get():
+            time_step = 1000
+        else:
+            time_step = 0
+        self.scheduler_app = SchedulerApp(self.simulator, time_step)
 
     
     def update_options(self, *args):
         
+        self.scheduler_menu.configure(state='disabled')
+
         for widget in self.optional_widgets:
             widget.grid_remove()
 
@@ -189,10 +196,12 @@ class TaskManagerApp(tk.Tk):
             self.quantum_label.grid(row=0, column=0, padx=10, pady=20, sticky="w")
             self.quantum_entry.grid(row=0, column=1, padx=10, pady=20, sticky="w")
             
+    
+    def clear_table(self):
+        self.task_tree.delete(*self.task_tree.get_children())
+        self.tasks_list.clear()
         
 
 if __name__ == "__main__":
     app = TaskManagerApp()
-    print(app.winfo_screenheight())
-    print(app.winfo_screenwidth())
     app.mainloop()

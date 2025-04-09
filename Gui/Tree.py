@@ -23,7 +23,6 @@ class Tree:
         self.tree.insert("", tk.END, values=[task.name, task.arr_time, task.burst_time])
 
     def update(self, process_name):
-        print(process_name)
         for item in self.tree.get_children():
             row = self.tree.item(item)["values"]
             if row[0] == process_name:
