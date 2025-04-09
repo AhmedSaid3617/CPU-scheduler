@@ -24,7 +24,8 @@ class SJF_prem_Scheduler(Scheduler):
         Queue Size for task as Large as bust time
         example: 8 seconds burst time = 8 entries of task in queue
         """
-        heapq.heappush(self.min_heap, task)
+        sjf_task = SJF_Task(task.name, task.arr_time, task.burst_time, task.priority)
+        heapq.heappush(self.min_heap, sjf_task)
 
     def rearrange_min_heap(self):
         heapq.heapify(self.min_heap)

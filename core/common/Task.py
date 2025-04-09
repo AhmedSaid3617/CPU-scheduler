@@ -10,8 +10,3 @@ class Task:
         self.arr_time = arr_time
         self.burst_time = burst_time
         self.priority = priority
-
-
-    def __lt__(self, other):
-        """Compare tasks by burst_time for min-heap behavior"""
-        return self.burst_time < other.burst_time

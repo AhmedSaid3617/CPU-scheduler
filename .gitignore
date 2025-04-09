@@ -4,6 +4,6 @@ venv/
 *.pycjjj
 env
 cpu_scheduler_simulator.egg-info
-build
-dist
+buildgit
 .idea
+build

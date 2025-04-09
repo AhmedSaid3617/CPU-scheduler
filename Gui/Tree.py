@@ -12,7 +12,7 @@ class Tree:
         self.tree = ttk.Treeview(self.parent, columns=columns, show="headings")
         self.tree.heading("name", text="Process Name")
         self.tree.heading("arrival", text="Arrival Time")
-        self.tree.heading("burst", text="Burst Time")
+        self.tree.heading("burst", text="Remaining Burst Time")
         self.tree.pack(expand=True, fill="both", padx=10, pady=10)
 
     def delete_all(self):
@@ -21,9 +21,9 @@ class Tree:
 
     def add(self, task):
         self.tree.insert("", tk.END, values=[task.name, task.arr_time, task.burst_time])
-
+    def add_zero(self, task):
+        self.tree.insert("", tk.END, values=[task.name, task.arr_time, 0])
     def update(self, process_name):
-        print(process_name)
         for item in self.tree.get_children():
             row = self.tree.item(item)["values"]
             if row[0] == process_name:

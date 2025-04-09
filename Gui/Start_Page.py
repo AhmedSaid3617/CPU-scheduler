@@ -8,8 +8,10 @@ from core.schedulers.Priority_non_prem import *
 from core.schedulers.Priority_prem import *
 from core.schedulers.SJF_non_prem import *
 from core.schedulers.SJF_prem import *
+from core.schedulers.RoundRobin import *
 from core.common.Simulator import Simulator
 from Gui.Table_and_Gannt import SchedulerApp
+
 
 class SchedulerNames:
     FCFS = str("FCFS")
@@ -18,6 +20,7 @@ class SchedulerNames:
     PRIORITY_PREM = str("Priority (Preemptive)")
     PRIORITY_NON_PREM = str("Priority (Non-preemptive)")
     ROUND_ROBIN = str("Round Robin")
+    DEFAULT = str("Scheduler Type")
 
 
 class TaskManagerApp(tk.Tk):
@@ -44,15 +47,15 @@ class TaskManagerApp(tk.Tk):
 
         # Task labels
         frame_task_input = tk.Frame()
-        task_name_label = tk.Label(frame_task_input, text="Task Name")
-        burst_time_label = tk.Label(frame_task_input, text="Burst Time")
-        arr_time_label = tk.Label(frame_task_input, text="Arrival Time")
+        self.task_name_label = tk.Label(frame_task_input, text="Task Name")
+        self.burst_time_label = tk.Label(frame_task_input, text="Burst Time")
+        self.arr_time_label = tk.Label(frame_task_input, text="Arrival Time")
         self.priority_label = tk.Label(frame_task_input, text="Priority")
 
         frame_task_input.grid(row=1, column=0, padx=10, pady=10, sticky="w", columnspan=5)
-        task_name_label.grid(row=0, column=0, padx=10, pady=0, sticky="w")
-        burst_time_label.grid(row=0, column=1, padx=10, pady=0, sticky="w")
-        arr_time_label.grid(row=0, column=2, padx=10, pady=0, sticky="w")
+        self.task_name_label.grid(row=0, column=0, padx=10, pady=0, sticky="w")
+        self.burst_time_label.grid(row=0, column=1, padx=10, pady=0, sticky="w")
+        self.arr_time_label.grid(row=0, column=2, padx=10, pady=0, sticky="w")
         
 
         # Task input
@@ -100,14 +103,16 @@ class TaskManagerApp(tk.Tk):
         frame_bottom = tk.Frame(self)
         self.quantum_entry = tk.Entry(frame_bottom, width=self.ENTRY_WIDTH)
         self.quantum_label = tk.Label(frame_bottom, text="Quantum time:")
-        self.live_checkbox = tk.Checkbutton(frame_bottom)
-        live_label = tk.Label(frame_bottom, text="Enable live scheduling:")
+        self.live_status = tk.BooleanVar()
+        self.live_checkbox = tk.Checkbutton(frame_bottom, text="Live Scheduling", variable=self.live_status)
         start_button = tk.Button(self, text="Start", command=self.start_simulation)
+        self.clear_button = tk.Button(self, text="Clear", command=self.clear_table)
 
         frame_bottom.grid(row=3, column=0, padx=10, pady=20, sticky="w")
-        live_label.grid(row=0, column=2, padx=(20, 0), pady=20, sticky="e")
         self.live_checkbox.grid(row=0, column=3, padx=5, pady=20, sticky="w")
         start_button.grid(row=3, column=2, padx=20, pady=20, sticky="e")
+        self.clear_button.grid(row=3, column=1, padx=20, pady=20, sticky="ew")
+        
 
         # List of scheduler-dependant options
         self.optional_widgets = [self.quantum_entry, self.quantum_label, self.entry_priority, self.priority_label]
@@ -115,7 +120,6 @@ class TaskManagerApp(tk.Tk):
 
     def add_task(self):
         try:
-            
             # Live update option.
             if self.started_sim:
                 new_task = Task(self.entry_task_name.get(), self.scheduler_app.current_time, int(self.entry_burst_time.get()))
@@ -135,34 +139,57 @@ class TaskManagerApp(tk.Tk):
                     return
             self.tasks_list.append(new_task)
             self.task_tree.insert('', 'end', values=(new_task.name, new_task.burst_time, new_task.arr_time, new_task.priority))
-        except TypeError:
+            if self.started_sim:
+                self.scheduler_app.tree.add(new_task)
+
+        except (TypeError, ValueError) as e:
             messagebox.showerror(title="Input Error", message="Incorrect parameters in task input.")
     
 
     def start_simulation(self):
-        self.started_sim = True
-        if self.chosen_scheduler.get() == SchedulerNames.FCFS:
-            scheduler = FCFS_Scheduler()
-        elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_NON_PREM:
-            scheduler = Priority_non_prem_Scheduler()
-        elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_PREM:
-            scheduler = Priority_prem_Scheduler()
-        elif self.chosen_scheduler.get() == SchedulerNames.SJF_NON_PREM:
-            scheduler = SJF_non_prem_Scheduler()
-        elif self.chosen_scheduler.get() == SchedulerNames.SRTF_PREM:
-            scheduler = SJF_prem_Scheduler()
 
-        self.simulator = Simulator(scheduler)
-        self.simulator.load_bulk(self.tasks_list)
+        # Create a scheduler.
+        try:
+            if self.chosen_scheduler.get() == SchedulerNames.DEFAULT:
+                messagebox.showwarning(title="No Schduler Selected", message="Please choose a scheduler.")
+                return
+            elif self.chosen_scheduler.get() == SchedulerNames.FCFS:
+                scheduler = FCFS_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_NON_PREM:
+                scheduler = Priority_non_prem_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_PREM:
+                scheduler = Priority_prem_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.SJF_NON_PREM:
+                scheduler = SJF_non_prem_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.SRTF_PREM:
+                scheduler = SJF_prem_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.ROUND_ROBIN:
+                scheduler = RoundRobinScheduler(int(self.quantum_entry.get()))
 
-        self.scheduler_app = SchedulerApp(self.simulator)
-        # self.destroy()
-        #self.scheduler_app.root.mainloop()
-        
+            # Remove arrival time entry.
+            self.entry_arr_time.grid_remove()
+            self.arr_time_label.grid_remove()
 
+            # Create simulator and load window.
+            self.simulator = Simulator(scheduler)
+            self.simulator.load_bulk(self.tasks_list)
+
+            if isinstance(scheduler, Priority_non_prem_Scheduler) or isinstance(scheduler, Priority_prem_Scheduler):
+                for task in self.tasks_list:
+                    if task.priority == None:
+                        messagebox.showwarning(title="Invalid Input", message="Priority value can't be none.")
+                        return
+
+            self.started_sim = True
+            self.scheduler_app = SchedulerApp(self.simulator, self.live_status.get())
+
+        except ValueError:
+            messagebox.showwarning(title="Invalid Input", message="Please enter a valid quantum time.")
     
     def update_options(self, *args):
         
+        self.scheduler_menu.configure(state='disabled')
+
         for widget in self.optional_widgets:
             widget.grid_remove()
 
@@ -174,10 +201,12 @@ class TaskManagerApp(tk.Tk):
             self.quantum_label.grid(row=0, column=0, padx=10, pady=20, sticky="w")
             self.quantum_entry.grid(row=0, column=1, padx=10, pady=20, sticky="w")
             
+    
+    def clear_table(self):
+        self.task_tree.delete(*self.task_tree.get_children())
+        self.tasks_list.clear()
         
 
 if __name__ == "__main__":
     app = TaskManagerApp()
-    print(app.winfo_screenheight())
-    print(app.winfo_screenwidth())
     app.mainloop()
