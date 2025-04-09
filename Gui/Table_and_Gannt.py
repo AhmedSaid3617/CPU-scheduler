@@ -33,16 +33,36 @@ class SchedulerApp(tk.Toplevel):
         self.tree.create_tree()
 
         self.chart = Gannt(self.bottom_frame)
-        self.chart.create_gantt_chart(0, [])
+
+        self.chart.create_gantt_chart([])
 
     def setup_simulation(self):
 
         self.total_time = sum(task.burst_time for tasks in self.simulator.batch.values() for task in tasks)
-        for tasks in self.simulator.batch.values():
-            for task in tasks:
-                self.tree.add(task)
+        if self.live:
+            for tasks in self.simulator.batch.values():
+                for task in tasks:
+                    self.tree.add(task)
+                self.run()
+        else:
+            for tasks in self.simulator.batch.values():
+                for task in tasks:
+                    self.tree.add_zero(task)
+            self.run_now()
 
-        self.run()
+    def run_now(self):
+        while not is_finished(self.simulator):
+            task = self.simulator.advance()
+            if task:
+                self.tree.update(task.name)
+                self.task_list.append(task.name)
+            else:
+                self.task_list.append("Idle")
+            self.current_time += 1
+        self.chart.create_gantt_chart(self.task_list)
+        stat = SchedulerStats()
+        result = self.simulator.accept(stat)
+        StatisticsWindow(result["avg_turnaround"], result["avg_waiting"], result["avg_response"])
 
     def run(self):
         if self.current_time == 0:
@@ -57,7 +77,7 @@ class SchedulerApp(tk.Toplevel):
                     self.task_list.append(task.name)
                 else:
                     self.task_list.append("Idle")
-                self.chart.create_gantt_chart(self.current_time, self.task_list)
+                self.chart.create_gantt_chart( self.task_list)
                 self.current_time += 1
             else:
                 stat = SchedulerStats()

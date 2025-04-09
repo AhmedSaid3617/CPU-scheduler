@@ -9,7 +9,7 @@ class Gannt():
         self.fig = None
         self.ax = None
 
-    def create_gantt_chart(self, start, task_list):
+    def create_gantt_chart(self, task_list):
         colour = ["blue", "red", "green", "purple", "brown", "magenta"]
 
         task_dict = {}
@@ -33,9 +33,10 @@ class Gannt():
                 self.ax.barh(0, width=1, left=i, height=1, color=task_dict[task_name])
                 self.ax.text(i + 0.5, 0, task_name, ha='center', va='center', color="white", fontsize=12)
 
-
-        self.ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
-        self.ax.set_xlim(0, max(len(task_list), 20))
+        n=len(task_list)
+        if n<1000:
+            self.ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
+        self.ax.set_xlim(0, max(n, 20))
         self.ax.set_yticks([])
         self.ax.set_xlabel('Time', fontsize=12)
         self.ax.set_title('Gantt Chart', fontsize=14)
