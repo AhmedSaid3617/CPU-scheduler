@@ -175,12 +175,7 @@ class TaskManagerApp(tk.Tk):
             self.simulator = Simulator(scheduler)
             self.simulator.load_bulk(self.tasks_list)
 
-            
-            if self.live_status.get():
-                time_step = 1000
-            else:
-                time_step = 0
-            self.scheduler_app = SchedulerApp(self.simulator, time_step)
+            self.scheduler_app = SchedulerApp(self.simulator, self.live_status.get())
 
         except ValueError:
             messagebox.showwarning(title="Invalid Input", message="Please enter a valid quantum time.")

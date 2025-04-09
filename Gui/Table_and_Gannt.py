@@ -10,14 +10,14 @@ from Gui.Statistics_Window import StatisticsWindow
 from core.common.SchedulerStats import SchedulerStats
 
 class SchedulerApp(tk.Toplevel):
-    def __init__(self, simulator:Simulator, time_step:int):
+    def __init__(self, simulator:Simulator, live:bool):
         super().__init__()
         self.title("CPU Scheduler - Process Table")
         self.geometry("990x1030+920+50")
         self.current_time = 0
         self.task_list = []
         self.simulator = simulator
-        self.time_step = time_step
+        self.live = live
 
         self.setup_ui()
         self.setup_simulation()
@@ -46,11 +46,11 @@ class SchedulerApp(tk.Toplevel):
 
     def run(self):
         if self.current_time == 0:
-            self.after(self.time_step, self.run)
+            self.after(1000, self.run)
             self.current_time += 1
         else:
             if not is_finished(self.simulator): 
-                self.after(self.time_step, self.run)  # Schedule next tick
+                self.after(1000, self.run)  # Schedule next tick
                 task = self.simulator.advance()
                 if task:
                     self.tree.update(task.name)
