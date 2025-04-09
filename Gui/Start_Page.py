@@ -8,8 +8,10 @@ from core.schedulers.Priority_non_prem import *
 from core.schedulers.Priority_prem import *
 from core.schedulers.SJF_non_prem import *
 from core.schedulers.SJF_prem import *
+from core.schedulers.RoundRobin import *
 from core.common.Simulator import Simulator
 from Gui.Table_and_Gannt import SchedulerApp
+
 
 class SchedulerNames:
     FCFS = str("FCFS")
@@ -140,46 +142,49 @@ class TaskManagerApp(tk.Tk):
             if self.started_sim:
                 self.scheduler_app.tree.add(new_task)
 
-
-
-        except TypeError:
+        except (TypeError, ValueError) as e:
             messagebox.showerror(title="Input Error", message="Incorrect parameters in task input.")
     
 
     def start_simulation(self):
 
         # Create a scheduler.
-        self.started_sim = True
-        
-        if self.chosen_scheduler.get() == SchedulerNames.DEFAULT:
-            messagebox.showwarning(title="No Schduler Selected", message="Please choose a scheduler.")
-            return
-        elif self.chosen_scheduler.get() == SchedulerNames.FCFS:
-            scheduler = FCFS_Scheduler()
-        elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_NON_PREM:
-            scheduler = Priority_non_prem_Scheduler()
-        elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_PREM:
-            scheduler = Priority_prem_Scheduler()
-        elif self.chosen_scheduler.get() == SchedulerNames.SJF_NON_PREM:
-            scheduler = SJF_non_prem_Scheduler()
-        elif self.chosen_scheduler.get() == SchedulerNames.SRTF_PREM:
-            scheduler = SJF_prem_Scheduler()
+        try:
+            self.started_sim = True
+            if self.chosen_scheduler.get() == SchedulerNames.DEFAULT:
+                messagebox.showwarning(title="No Schduler Selected", message="Please choose a scheduler.")
+                return
+            elif self.chosen_scheduler.get() == SchedulerNames.FCFS:
+                scheduler = FCFS_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_NON_PREM:
+                scheduler = Priority_non_prem_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.PRIORITY_PREM:
+                scheduler = Priority_prem_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.SJF_NON_PREM:
+                scheduler = SJF_non_prem_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.SRTF_PREM:
+                scheduler = SJF_prem_Scheduler()
+            elif self.chosen_scheduler.get() == SchedulerNames.ROUND_ROBIN:
+                scheduler = RoundRobinScheduler(int(self.quantum_entry.get()))
 
-        # Remove arrival time entry.
-        self.entry_arr_time.grid_remove()
-        self.arr_time_label.grid_remove()
+            # Remove arrival time entry.
+            self.entry_arr_time.grid_remove()
+            self.arr_time_label.grid_remove()
 
-        # Create simulator and load window.
-        self.simulator = Simulator(scheduler)
-        self.simulator.load_bulk(self.tasks_list)
+            # Create simulator and load window.
+            self.simulator = Simulator(scheduler)
+            self.simulator.load_bulk(self.tasks_list)
 
-        
-        if self.live_status.get():
-            time_step = 1000
-        else:
-            time_step = 0
-        self.scheduler_app = SchedulerApp(self.simulator, time_step)
+            
+            if self.live_status.get():
+                time_step = 1000
+            else:
+                time_step = 0
+            self.scheduler_app = SchedulerApp(self.simulator, time_step)
 
+        except ValueError:
+            messagebox.showwarning(title="Invalid Input", message="Please enter a valid quantum time.")
+            self.started_sim = False
     
     def update_options(self, *args):
         
