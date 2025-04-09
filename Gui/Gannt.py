@@ -34,7 +34,7 @@ class Gannt():
                 self.ax.text(i + 0.5, 0, task_name, ha='center', va='center', color="white", fontsize=12)
 
         n=len(task_list)
-        if n<1000:
+        if n<20:
             self.ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
         self.ax.set_xlim(0, max(n, 20))
         self.ax.set_yticks([])

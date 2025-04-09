@@ -65,7 +65,7 @@ class SchedulerApp(tk.Toplevel):
             for tasks in self.simulator.batch.values():
                 for task in tasks:
                     self.tree.add(task)
-                self.run()
+            self.run()
         else:
             for tasks in self.simulator.batch.values():
                 for task in tasks:
@@ -89,6 +89,7 @@ class SchedulerApp(tk.Toplevel):
         StatisticsWindow(result["avg_turnaround"], result["avg_waiting"], result["avg_response"])
 
     def run(self):
+        print(self.current_time)
         if self.current_time == 0:
             self.after(1000, self.run)
             self.current_time += 1
