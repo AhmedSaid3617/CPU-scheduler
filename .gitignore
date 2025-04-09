@@ -6,3 +6,4 @@ env
 cpu_scheduler_simulator.egg-info
 buildgit
 .idea
+build

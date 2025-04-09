@@ -150,7 +150,6 @@ class TaskManagerApp(tk.Tk):
 
         # Create a scheduler.
         try:
-            self.started_sim = True
             if self.chosen_scheduler.get() == SchedulerNames.DEFAULT:
                 messagebox.showwarning(title="No Schduler Selected", message="Please choose a scheduler.")
                 return
@@ -175,11 +174,17 @@ class TaskManagerApp(tk.Tk):
             self.simulator = Simulator(scheduler)
             self.simulator.load_bulk(self.tasks_list)
 
+            if isinstance(scheduler, Priority_non_prem_Scheduler) or isinstance(scheduler, Priority_prem_Scheduler):
+                for task in self.tasks_list:
+                    if task.priority == None:
+                        messagebox.showwarning(title="Invalid Input", message="Priority value can't be none.")
+                        return
+
+            self.started_sim = True
             self.scheduler_app = SchedulerApp(self.simulator, self.live_status.get())
 
         except ValueError:
             messagebox.showwarning(title="Invalid Input", message="Please enter a valid quantum time.")
-            self.started_sim = False
     
     def update_options(self, *args):
         
