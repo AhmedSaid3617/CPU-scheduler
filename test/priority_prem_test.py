@@ -13,7 +13,7 @@ class MyTestCase(unittest.TestCase):
 
         sim.load(Priority_Task(name="task 1", arr_time=0, burst_time=3,priority=2))
         sim.load(Priority_Task(name="task 2", arr_time=1, burst_time=5,priority=1))
-        sim.load(Priority_Task(name="task 3", arr_time=2, burst_time=3))
+        sim.load(Priority_Task(name="task 3", arr_time=2, burst_time=3, priority=10))
 
         # advance returns task that runs currently and moves 1 second forward
 
@@ -39,7 +39,7 @@ class MyTestCase(unittest.TestCase):
 
         sim.load(Priority_Task(name="task 1", arr_time=0, burst_time=3, priority=2))
         sim.load(Priority_Task(name="task 2", arr_time=0, burst_time=5, priority=1))
-        sim.load(Priority_Task(name="task 3", arr_time=0, burst_time=3))
+        sim.load(Priority_Task(name="task 3", arr_time=0, burst_time=3, priority=10))
         sim.load(Priority_Task(name="task 4", arr_time=8, burst_time=5, priority=1))
 
         for i in range(5):

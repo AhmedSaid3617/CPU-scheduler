@@ -6,8 +6,10 @@ class Priority_Task(Task):
         attributes: name , arrival_time , burst_time , priority
         We will add options later ( work in progress )
     """
-    def __init__(self, name, arr_time=0, burst_time=1, priority=10):
+    def __init__(self, name, arr_time=0, burst_time=1, priority=None):
         super().__init__(name=name, arr_time=arr_time, burst_time=burst_time, priority=priority)
+        if priority == None:
+            raise ValueError("Priority value is not set.")
 
     def __lt__(self, other):
         """Compare tasks by burst_time for min-heap behavior"""

@@ -26,7 +26,8 @@ class Priority_non_prem_Scheduler(Scheduler):
         Queue Size for task as Large as bust time
         example: 8 seconds burst time = 8 entries of task in queue
         """
-        heapq.heappush(self.min_heap, task)
+        priority_task = Priority_Task(task.name, task.arr_time, task.burst_time, task.priority)
+        heapq.heappush(self.min_heap, priority_task)
 
     def rearrange_min_heap(self)-> Task:
         heapq.heapify(self.min_heap)

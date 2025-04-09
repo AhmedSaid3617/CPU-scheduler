@@ -1,7 +1,7 @@
 import unittest
 from core.schedulers.RoundRobin import RoundRobinScheduler
 from core.common.Simulator import Simulator
-from core.common.Priority_Task import Priority_Task
+from core.common.Task import Task
 from core.common.SchedulerStats import SchedulerStats
 
 
@@ -16,10 +16,10 @@ class MyTestCase(unittest.TestCase):
         sch = RoundRobinScheduler(quanta)
         sim = Simulator(sch)
 
-        sim.load(Priority_Task(name="task 1", arr_time=0, burst_time=7))
-        sim.load(Priority_Task(name="task 2", arr_time=0, burst_time=10))
-        sim.load(Priority_Task(name="task 3", arr_time=0, burst_time=15))
-        sim.load(Priority_Task(name="task 4", arr_time=0, burst_time=8))
+        sim.load(Task(name="task 1", arr_time=0, burst_time=7))
+        sim.load(Task(name="task 2", arr_time=0, burst_time=10))
+        sim.load(Task(name="task 3", arr_time=0, burst_time=15))
+        sim.load(Task(name="task 4", arr_time=0, burst_time=8))
 
         # advance returns task that runs currently and moves 1 second forward
         test_equal(self, sim, "task 1", quanta)
@@ -56,10 +56,10 @@ class MyTestCase(unittest.TestCase):
         sch = RoundRobinScheduler(quanta)
         sim = Simulator(sch)
 
-        sim.load(Priority_Task(name="task 1", arr_time=0, burst_time=7))
-        sim.load(Priority_Task(name="task 2", arr_time=7, burst_time=14))
-        sim.load(Priority_Task(name="task 3", arr_time=14, burst_time=7))
-        sim.load(Priority_Task(name="task 4", arr_time=28, burst_time=3))
+        sim.load(Task(name="task 1", arr_time=0, burst_time=7))
+        sim.load(Task(name="task 2", arr_time=7, burst_time=14))
+        sim.load(Task(name="task 3", arr_time=14, burst_time=7))
+        sim.load(Task(name="task 4", arr_time=28, burst_time=3))
 
         test_equal(self, sim, "task 1", quanta)
         test_equal(self, sim, "task 2", quanta)
@@ -82,10 +82,10 @@ class MyTestCase(unittest.TestCase):
         sch = RoundRobinScheduler(quanta)
         sim = Simulator(sch)
 
-        sim.load(Priority_Task(name="task 1", arr_time=0, burst_time=7))
-        sim.load(Priority_Task(name="task 2", arr_time=7, burst_time=14))
-        sim.load(Priority_Task(name="task 3", arr_time=14, burst_time=7))
-        sim.load(Priority_Task(name="task 4", arr_time=30, burst_time=3))
+        sim.load(Task(name="task 1", arr_time=0, burst_time=7))
+        sim.load(Task(name="task 2", arr_time=7, burst_time=14))
+        sim.load(Task(name="task 3", arr_time=14, burst_time=7))
+        sim.load(Task(name="task 4", arr_time=30, burst_time=3))
 
         for i in range(7):
             self.assertEqual(sim.advance().name, "task 1")

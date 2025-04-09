@@ -16,7 +16,7 @@ class MyTestCase(unittest.TestCase):
         sim.load(Priority_Task(name="task 2", arr_time=1, burst_time=5,priority=1))
         self.assertEqual(sim.advance().name, "task 1")
 
-        sim.load(Priority_Task(name="task 3", arr_time=2, burst_time=3))
+        sim.load(Priority_Task(name="task 3", arr_time=2, burst_time=3, priority=10))
 
         self.assertEqual(sim.advance().name, "task 1")
 
@@ -44,7 +44,7 @@ class MyTestCase(unittest.TestCase):
         sim = Simulator(sch)
         sim.load(Priority_Task(name="task 1", arr_time=0, burst_time=3, priority=2))
         sim.load(Priority_Task(name="task 2", arr_time=0, burst_time=5, priority=1))
-        sim.load(Priority_Task(name="task 3", arr_time=2, burst_time=3))
+        sim.load(Priority_Task(name="task 3", arr_time=2, burst_time=3, priority=10))
         sim.load(Priority_Task(name="task 4", arr_time=2, burst_time=7, priority=4))
 
         for i in range(5):
@@ -73,7 +73,7 @@ class MyTestCase(unittest.TestCase):
         sim = Simulator(sch)
         sim.load(Priority_Task(name="task 1", arr_time=0, burst_time=3, priority=2))
         sim.load(Priority_Task(name="task 2", arr_time=0, burst_time=5, priority=1))
-        sim.load(Priority_Task(name="task 3", arr_time=2, burst_time=3))
+        sim.load(Priority_Task(name="task 3", arr_time=2, burst_time=3, priority=10))
         sim.load(Priority_Task(name="task 4", arr_time=11, burst_time=7, priority=4))
 
         for i in range(5):
