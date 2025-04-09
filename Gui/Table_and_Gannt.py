@@ -22,6 +22,28 @@ class SchedulerApp(tk.Toplevel):
         self.setup_ui()
         self.setup_simulation()
 
+    def compress_tasks(self,task_list):
+        start=0
+        if not task_list:
+            return []
+
+        compressed = []
+        current_task = task_list[0]
+        duration = 1
+
+        for task in task_list[1:]:
+            if task == current_task:
+                duration += 1
+            else:
+                compressed.append((current_task, duration,start))
+                start+=duration
+                current_task = task
+                duration = 1
+
+        # Add the last task group
+        compressed.append((current_task, duration,start))
+        return compressed
+
     def setup_ui(self):
         self.top_frame = ttk.Frame(self)
         self.bottom_frame = ttk.Frame(self)
@@ -54,12 +76,14 @@ class SchedulerApp(tk.Toplevel):
         while not is_finished(self.simulator):
             task = self.simulator.advance()
             if task:
-                self.tree.update(task.name)
                 self.task_list.append(task.name)
             else:
                 self.task_list.append("Idle")
             self.current_time += 1
-        self.chart.create_gantt_chart(self.task_list)
+        print(self.task_list)
+        non_live_list=self.compress_tasks(self.task_list)
+        print(non_live_list)
+        self.chart.create_gantt_chart_2(non_live_list,len(self.task_list))
         stat = SchedulerStats()
         result = self.simulator.accept(stat)
         StatisticsWindow(result["avg_turnaround"], result["avg_waiting"], result["avg_response"])

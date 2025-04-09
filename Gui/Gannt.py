@@ -44,3 +44,38 @@ class Gannt():
 
         # Redraw only the canvas
         self.canvas.draw()
+
+    def create_gantt_chart_2(self, task_tuple,size):
+        colour = ["blue", "red", "green", "purple", "brown", "magenta"]
+
+        task_dict = {}
+
+        # First time setup: create figure and canvas once
+        if self.canvas is None:
+            self.fig, self.ax = plt.subplots(figsize=(20, 2))
+            self.canvas = FigureCanvasTkAgg(self.fig, master=self.parent)
+            self.canvas.get_tk_widget().pack(fill="both", expand=True, padx=10, pady=5)
+        else:
+            self.ax.clear()  # Clear previous plot instead of destroying canvas
+
+        # Draw bars
+        count = 0
+        for i, (task_name,duration,start) in enumerate(task_tuple):
+            if task_name != "Idle":
+                if task_name not in task_dict:
+                    count = count + 1
+                    task_dict[task_name] = colour[count % (len(colour))]
+
+                self.ax.barh(0, width=duration, left=start, height=1, color=task_dict[task_name])
+                self.ax.text(start+duration/2, 0, task_name, ha='center', va='center', color="white", fontsize=12)
+
+        if size < 20:
+            self.ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
+        self.ax.set_xlim(0, max(size, 20))
+        self.ax.set_yticks([])
+        self.ax.set_xlabel('Time', fontsize=12)
+        self.ax.set_title('Gantt Chart', fontsize=14)
+        self.ax.tick_params(axis='x', labelsize=10)
+
+        # Redraw only the canvas
+        self.canvas.draw()
