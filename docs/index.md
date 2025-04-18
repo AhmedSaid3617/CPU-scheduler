@@ -30,25 +30,38 @@ We have utilized the `unittest` framework for testing the simulator. Each schedu
 TODO: insert image here
 
 # Simulator
-time units, accepts visitors, GUI interface
+```{toctree}
+sections/simulator.md
+```
 
 # Scheduler Interface
-add task, advance step, very un-coupled, clean
+```{toctree}
+sections/scheduler.md
+```
 
 # Schedulers
 
 ## FCFS
-short description
+```{toctree}
+sections/fcfs.md
+```
 
 ## SJF
-short description
+```{toctree}
+sections/sjf.md
+```
 
 ## Priority
-short description
+```{toctree}
+sections/priority.md
+```
 
 ## Round Robin
-short description
-
+```{toctree}
+sections/rr.md
+```
 # GUI
 
-add images, description if needed
+```{toctree}
+sections/gui.md
+```
