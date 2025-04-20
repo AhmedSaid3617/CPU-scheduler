@@ -63,8 +63,8 @@ class SchedulerStats:
             "turnaround": turnaround,
             "waiting": waiting,
             "response": response,
-            "avg_turnaround": sum(turnaround.values()) / len(turnaround),
-            "avg_waiting": sum(waiting.values()) / len(waiting),
-            "avg_response": sum(response.values()) / len(response),
+            "avg_turnaround": sum(turnaround.values()) / len(simulator.tasks),
+            "avg_waiting": sum(waiting.values()) / len(simulator.tasks),
+            "avg_response": sum(response.values()) / len(simulator.tasks),
         }
 

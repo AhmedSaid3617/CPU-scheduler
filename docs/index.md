@@ -1,22 +1,67 @@
 # CPU Scheduler Simulator Documentation
 
-Welcome to the documentation.
+# Introduction
 
-## Project Team
+This is a CPU Scheduler Simulator. It simulates the behavior of different CPU scheduling algorithms, allowing users to visualize how each algorithm manages processes in a CPU environment. The simulator provides a graphical user interface (GUI) for easy interaction and understanding of the scheduling algorithms.
 
-| Name          | Role                      |
-|---------------|---------------------------|
-| Alice Johnson | Lead Developer            |
-| Bob Smith     | Algorithm Designer        |
-| Charlie Lee   | Testing and Documentation |
-| Dana Kim      | UI/UX Contributor         |
+## Team
+| Name                             | Role                                                                       |
+|----------------------------------|----------------------------------------------------------------------------|
+| Shams El-Din Mohamed Abdel-Monem | Core Simulator Engine, Documentation compiling, FCFS scheduler             |
+| Ahmed Said Sayed                 | Repo maintenance, pull-requests reviewer, Task model updating, GUI windows |
+| Abdelrahman Sherif Hassan        | SJF, Priority (preemptive and non-preemptive) schedulers                   |
+| Mahmoud Essam Noureldin          | GUI testing and maintenance                                                |
+| Omar Tamer Mohamed               | Round Robin scheduler, verified and fixed statistics                       |
+| Fares Khalaf Salman Sultan       | Verified FCFS, Priority scheduler. Fixed issues                            |
+| Kareem Gaber El Halaby           | Python packages management, GUI windows, fixed issues in Core Simulator    |
 
-**School Code:** CS1234  
-**Semester:** Spring 2025  
-**Instructor:** Dr. Jane Doe
+
+## Architecture
+
+The simulator is designed with a modular architecture, allowing for easy addition and modification of scheduling algorithms. The core components of the simulator include:
+- **Simulator**: The main engine that wraps the scheduling algorithms and manages the simulation process.
+- **Schedulers**: Different scheduling algorithms implemented as classes, each with its own logic for managing processes, uncoupled from other schedulers.
+- **GUI**: The graphical user interface that allows users to interact with the simulator, input processes, and visualize the scheduling process.
+
+## Testing
+
+We have utilized the `unittest` framework for testing the simulator. Each scheduler has its own set of unit tests to ensure correctness and reliability. The tests cover various scenarios, including edge cases and typical use cases.
+
+TODO: insert image here
+
+# Simulator
+```{toctree}
+sections/simulator.md
+```
+
+# Scheduler Interface
+```{toctree}
+sections/scheduler.md
+```
+
+# Schedulers
+
+## FCFS
+```{toctree}
+sections/fcfs.md
+```
+
+## SJF
+```{toctree}
+sections/sjf.md
+```
+
+## Priority
+```{toctree}
+sections/priority.md
+```
+
+## Round Robin
+```{toctree}
+sections/rr.md
+```
+# GUI
 
 ```{toctree}
-:maxdepth: 2
-:caption: Contents:
-
-sections/intro
+sections/gui.md
+```
