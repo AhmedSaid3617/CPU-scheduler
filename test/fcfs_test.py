@@ -132,3 +132,30 @@ def test_case_5(self):  # Tasks arriving during execution
     self.assertEqual(result["waiting"][task_list[2]], 3)     # 5-2
     self.assertAlmostEqual(result["avg_turnaround"], 5.333, places=3)  # (5+6+5)/3
     self.assertAlmostEqual(result["avg_waiting"], 1.666, places=3)     # (0+2+3)/3
+
+def test_case_6(self):  # Mixed scenario with idle time
+    sch = FCFS_Scheduler()
+    sim = Simulator(sch)
+    task_list = [
+        Task(name="T1", arr_time=2, burst_time=3),
+        Task(name="T2", arr_time=0, burst_time=2),
+        Task(name="T3", arr_time=7, burst_time=4)
+    ]
+    sim.load_bulk(task_list)
+    for _ in range(11):  # Timeline: idle(0-0), T2(0-2), idle(2-2), T1(2-5), idle(5-7), T3(7-11)
+        sim.advance()
+    # Expected: T2 (0-2), T1 (2-5), T3 (7-11)
+    # Note: Need to handle idle time in history_matches or adjust test
+    stat = SchedulerStats()
+    result = sim.accept(stat)
+    # T2: arrived at 0, started at 0, finished at 2
+    self.assertEqual(result["turnaround"][task_list[1]], 2)  # 2-0
+    self.assertEqual(result["waiting"][task_list[1]], 0)     # 2-2
+    # T1: arrived at 2, started at 2, finished at 5
+    self.assertEqual(result["turnaround"][task_list[0]], 3)  # 5-2
+    self.assertEqual(result["waiting"][task_list[0]], 0)     # 3-3
+    # T3: arrived at 7, started at 7, finished at 11
+    self.assertEqual(result["turnaround"][task_list[2]], 4)  # 11-7
+    self.assertEqual(result["waiting"][task_list[2]], 0)     # 4-4
+    self.assertAlmostEqual(result["avg_turnaround"], 3)      # (2+3+4)/3
+    self.assertAlmostEqual(result["avg_waiting"], 0)         # (0+0+0)/3
