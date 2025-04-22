@@ -15,9 +15,6 @@ This is a CPU Scheduler Simulator. It simulates the behavior of different CPU sc
 | Fares Khalaf Salman Sultan       | Verified FCFS, Priority scheduler. Fixed issues                            |
 | Kareem Gaber El Halaby           | Python packages management, GUI windows, fixed issues in Core Simulator    |
 
-## Program Links
-[Program exe and source code](https://drive.google.com/drive/folders/1inorJT3szzcwwwBvrDLMuET0bF2pKwto?usp=drive_link)
-
 ## Architecture
 
 The simulator is designed with a modular architecture, allowing for easy addition and modification of scheduling algorithms. The core components of the simulator include:
