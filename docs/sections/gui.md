@@ -1,7 +1,5 @@
 # GUI
 
----
-
 ## **Features Overview**
 
 1. **Live Simulation Mode**  
@@ -14,8 +12,6 @@
    - Users input all tasks before starting the simulation.  
    - The Gantt chart is displayed immediately after the simulation begins, showing the entire schedule.  
    - *Refer to the image below for an example of the non-live simulation interface.*
-
----
 
 ## **How to Use the GUI**
 
@@ -31,9 +27,11 @@
   - **Start Simulation**: Begins the simulation in either live or non-live mode, depending on the selected option.
 - **Live Mode**: Tasks can be added dynamically after the simulation starts.
 
-   <img src="image.png" alt="Task Input Interface" width="400">
+```{figure} image.png
+:scale: 50 %
 
----
+Task Input Interface
+```
 
 ### **Gantt Chart**
 - **Purpose**: Visualize the scheduling process.
@@ -42,9 +40,12 @@
   - In live mode, the chart updates in real-time as tasks are scheduled.
   - In non-live mode, the chart is displayed immediately after the simulation starts.
 
-   <img src="image-1.png" alt="Gantt Chart Example" width="400">
+```{figure} image-1.png
+:scale: 50 %
 
----
+Gantt Chart Example
+```
+
 
 ### **Statistics**
 - **Purpose**: Display detailed statistics about the simulation.
@@ -54,12 +55,12 @@
   - **CPU Utilization**: The percentage of time the CPU is actively executing tasks.
   - **Throughput**: The number of tasks completed per unit of time.
 
+```{figure} image-2.png
+:scale: 50 %
 
-
-   <img src="image-2.png" alt="Statistics Page" width="400">
+Statistics Page
+```
 
 ## **Additional Notes**
 - Ensure all task details are entered correctly before starting the simulation.
 - Choose the scheduler before adding tasks to get the appropriate options in task details.
-
----

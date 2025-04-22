@@ -60,7 +60,7 @@ sections/priority.md
 
 ## Round Robin
 ```{toctree}
-sections/rr.md
+sections/RoundRobin.md
 ```
 # GUI
 
