@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'CPU Scheduler Simulator'
-copyright = '2025, Shams El-Din Mohamed, Ahmed Saeed'
-author = 'Shams El-Din Mohamed, Ahmed Saeed'
+copyright = '2025, FoE ASU'
+author = 'Spring 2025'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -68,7 +68,7 @@ latex_elements = {
     # Remove extra Sphinx styling
     'sphinxsetup': '',
     # Ensure table of contents is included
-    'tableofcontents': r'\teamtable\tableofcontents\newpage',
+    'tableofcontents': r'\teamtable\tableofcontents\listoffigures\newpage',
 }
 
 latex_theme = 'howto'
