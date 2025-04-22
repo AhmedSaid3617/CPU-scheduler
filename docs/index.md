@@ -26,7 +26,25 @@ The simulator is designed with a modular architecture, allowing for easy additio
 
 We have utilized the `unittest` framework for testing the simulator. Each scheduler has its own set of unit tests to ensure correctness and reliability. The tests cover various scenarios, including edge cases and typical use cases.
 
-TODO: insert image here
+```{figure} testing1.png
+:scale: 50 %
+
+Final tests run, all passed.
+Testing proved to be a really important step in the development process, as it helped us identify and fix bugs early on.
+```
+
+```{figure} github1.png
+:scale: 50 %
+
+Use of GitHub Issues to have a clear view of the bugs and issues we faced during the development process.
+```
+
+```{figure} gactions1.png
+:scale: 50 %
+
+Use of GitHub Actions to run the tests automatically on every Pull Request, to spot on bad code before merging.
+```
+
 
 # Simulator
 ```{toctree}
