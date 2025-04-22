@@ -7,10 +7,10 @@ This is a CPU Scheduler Simulator. It simulates the behavior of different CPU sc
 ## Team
 | Name                             | Role                                                                       |
 |----------------------------------|----------------------------------------------------------------------------|
-| Shams El-Din Mohamed Abdel-Monem | Core Simulator Engine, Documentation compiling, FCFS scheduler             |
+| Shams El-Din Mohamed Abdel-Monem | Core Simulator/scheduler Engine, testing framework, pull-requests reviewer |
 | Ahmed Said Sayed                 | Repo maintenance, pull-requests reviewer, Task model updating, GUI windows |
 | Abdelrahman Sherif Hassan        | SJF, Priority (preemptive and non-preemptive) schedulers                   |
-| Mahmoud Essam Noureldin          | GUI testing and maintenance                                                |
+| Mahmoud Essam Noureldin          | GUI testing and maintenance, FCFS scheduler                                |
 | Omar Tamer Mohamed               | Round Robin scheduler, verified and fixed statistics                       |
 | Fares Khalaf Salman Sultan       | Verified FCFS, Priority scheduler. Fixed issues                            |
 | Kareem Gaber El Halaby           | Python packages management, GUI windows, fixed issues in Core Simulator    |
