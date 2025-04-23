@@ -22,6 +22,10 @@ The simulator is designed with a modular architecture, allowing for easy additio
 - **Schedulers**: Different scheduling algorithms implemented as classes, each with its own logic for managing processes, uncoupled from other schedulers.
 - **GUI**: The graphical user interface that allows users to interact with the simulator, input processes, and visualize the scheduling process.
 
+## Important Remarks
+For the best user experience when running the exe, change your screen settings as follows:
+![alt text](image.png)
+
 ## Testing
 
 We have utilized the `unittest` framework for testing the simulator. Each scheduler has its own set of unit tests to ensure correctness and reliability. The tests cover various scenarios, including edge cases and typical use cases.
