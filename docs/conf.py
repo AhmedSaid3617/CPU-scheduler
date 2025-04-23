@@ -62,6 +62,8 @@ latex_elements = {
         \begin{center}
             \vspace{0.5cm}
             \href{https://drive.google.com/drive/folders/1inorJT3szzcwwwBvrDLMuET0bF2pKwto?usp=drive_link}{\textbf{Executable File and Source Code}}
+            
+            Please check section \ref{\detokenize{index:remarks-target}} for the installation instructions.
             \vspace{0.5cm}
         \end{center}
         }
