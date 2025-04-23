@@ -52,8 +52,7 @@ Gantt Chart Example
 - **Statistics Provided**:
   - **Average Waiting Time**: The average time tasks spend waiting in the queue.
   - **Average Turnaround Time**: The average time from task arrival to completion.
-  - **CPU Utilization**: The percentage of time the CPU is actively executing tasks.
-  - **Throughput**: The number of tasks completed per unit of time.
+  - **Average Response Time**: The average time from task arrival to first response.
 
 ```{figure} image-2.png
 :scale: 50 %
