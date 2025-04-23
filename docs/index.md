@@ -23,8 +23,15 @@ The simulator is designed with a modular architecture, allowing for easy additio
 - **GUI**: The graphical user interface that allows users to interact with the simulator, input processes, and visualize the scheduling process.
 
 ## Important Remarks
-For the best user experience when running the exe, change your screen settings as follows:
-![alt text](image.png)
+For the best user experience when running the exe, change your screen settings as shown in [](#res-target).
+
+(res-target)=
+```{figure} image.png
+:scale: 50 %
+
+How to ensure correct resolution
+```
+
 
 ## Testing
 
