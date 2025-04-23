@@ -51,10 +51,7 @@ latex_elements = {
             Ahmed Said Sayed & 2101546 -- S3 \\
             Abdelrahman Sherif Hassan & 2100735 -- S3 \\
             Mahmoud Essam Noureldin & 2001393 -- S2 \\
-            Yousef Mahmoud Mohamed & 2100994 -- S3 \\
-            Mohamed Hussien Mansour Sayed & 2100919 -- S4 \\
             Omar Tamer Mohamed & 2100528 -- S3 \\
-            Youssof Waleed Fathi & 2101734 -- S3 \\
             Fares Khalaf Salman Sultan & 2101371 -- S3 \\
             Kareem Gaber El Halaby & 2101545 -- S3 \\
             \bottomrule
